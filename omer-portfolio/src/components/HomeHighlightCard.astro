@@ -1,0 +1,191 @@
+---
+import type { Lang } from "../i18n/utils";
+
+type Kind = "book" | "youtube" | "clip";
+
+type Props = {
+  lang: Lang;
+  kind: Kind;
+  title: string;
+  note?: string;
+  tags?: string[];
+  href?: string;
+
+  // media
+  imageSrc?: string;
+  imageAlt?: string;
+
+  youtubeUrl?: string;   // watch/shorts/youtu.be link
+  mp4Src?: string;       // local mp4
+  poster?: string;
+};
+
+const {
+  lang,
+  kind,
+  title,
+  note,
+  tags,
+  href,
+  imageSrc,
+  imageAlt,
+  youtubeUrl,
+  mp4Src,
+  poster,
+} = Astro.props as Props;
+
+// YouTube ID çıkar
+const getYouTubeId = (url?: string) => {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("youtu.be")) return u.pathname.replace("/", "") || null;
+    const v = u.searchParams.get("v");
+    if (v) return v;
+    const m = u.pathname.match(/\/shorts\/([A-Za-z0-9_-]{6,})/);
+    if (m?.[1]) return m[1];
+    const e = u.pathname.match(/\/embed\/([A-Za-z0-9_-]{6,})/);
+    if (e?.[1]) return e[1];
+    return null;
+  } catch {
+    return null;
+  }
+};
+
+const ytId = getYouTubeId(youtubeUrl);
+const ytEmbed = ytId
+  ? `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&playsinline=1&modestbranding=1&rel=0`
+  : null;
+---
+
+<article class="card">
+  <header class="top">
+    <h3>{title}</h3>
+
+    {tags?.length ? (
+      <div class="tags">
+        {tags.map((t) => <span class="tag">{t}</span>)}
+      </div>
+    ) : null}
+  </header>
+
+  <div class="media">
+    {kind === "book" && imageSrc ? (
+      <img src={imageSrc} alt={imageAlt ?? title} loading="lazy" />
+    ) : null}
+
+    {kind === "youtube" && ytEmbed ? (
+      <iframe
+        src={ytEmbed}
+        title={title}
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    ) : null}
+
+    {kind === "clip" && mp4Src ? (
+      <video src={mp4Src} poster={poster} autoplay muted loop playsinline preload="metadata"></video>
+    ) : null}
+  </div>
+
+  {note ? <p class="note">{note}</p> : null}
+
+  <footer class="links">
+    {href ? (
+      <a class="action" href={href}>{lang === "tr" ? "Detay" : "Details"}</a>
+    ) : null}
+
+    {youtubeUrl ? (
+      <a href={youtubeUrl} target="_blank">YouTube</a>
+    ) : null}
+  </footer>
+</article>
+
+<style>
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  h3{ margin:0; font-size: 15px; }
+
+  .tags{ display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; }
+  .tag{
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    padding: 4px 9px;
+    font-size: 12px;
+    opacity: 0.9;
+    background: rgba(0,0,0,0.2);
+    white-space: nowrap;
+  }
+
+  /* ⭐ BÜTÜN KARTLARIN MEDYA ALANI AYNI YÜKSEKLİKTE */
+  .media{
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.25);
+    height: 180px;              /* sabit: yamukluğu bitirir */
+  }
+
+  /* img / iframe / video sabit yükseklikte cover */
+  .media :global(img),
+  .media :global(iframe),
+  .media :global(video){
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Kitap kapağı için biraz "poster" hissi */
+  .media :global(img){
+    object-position: center;
+  }
+
+  .note{
+  margin: 10px 0 0;
+  opacity: 0.9;
+  font-size: 13px;
+
+  /* ✅ sadece burada metni kısalt */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;  /* 4 satır göster */
+  line-clamp:2;
+}
+
+  .links{
+    margin-top: auto;
+    display:flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 10px;
+  }
+  .links a{ text-decoration:none; font-weight: 700; }
+  .links a:hover{ text-decoration: underline; }
+  .action{ opacity: 0.9; }
+</style>

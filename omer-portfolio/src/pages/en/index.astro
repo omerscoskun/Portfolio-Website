@@ -2,8 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import HighlightRow from "../../components/HighlightRow.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
-import BookCard from "../../components/BookCard.astro";
+import BookCoverCard from "../../components/BookCard.astro";
 import MediaLinkCard from "../../components/MediaLinkCard.astro";
+import HomeHighlightCard from "../../components/HomeHighlightCard.astro";
 
 import { projects } from "../../data/projects";
 import { beiva } from "../../data/beiva";
@@ -15,6 +16,7 @@ const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
 const featuredBook = beiva.books.find((b) => b.id === beiva.featured.bookId) ?? beiva.books[0];
 const featuredMusic = beiva.music.find((m) => m.id === beiva.featured.musicId) ?? beiva.music[0];
 const featuredYoutube = beiva.youtube.find((y) => y.id === beiva.featured.youtubeId) ?? beiva.youtube[0];
+const featuredClip = beiva.clips?.[0];
 
 // Highlight texts
 const highlights = [
@@ -63,18 +65,64 @@ const highlights = [
     )}
   </section>
 
-  <section>
-    <div class="sectionHead">
-      <h2>BEIVA Highlights</h2>
-      <a class="smallLink" href="/en/beiva">View all →</a>
-    </div>
+<section>
+  <div class="sectionHead">
+    <h2>BEIVA’dan Highlights</h2>
+    <a class="smallLink" href="/en/beiva">View all →</a>
+  </div>
 
-    {featuredBook ? <BookCard book={featuredBook} lang="en" /> : null}
-    {featuredMusic ? <MediaLinkCard item={featuredMusic} lang="en" /> : null}
-    {featuredYoutube ? <MediaLinkCard item={featuredYoutube} lang="en" /> : null}
-  </section>
+  <div class="beivaGrid">
+    {featuredBook ? (
+      <HomeHighlightCard
+        lang="en"
+        kind="book"
+        title={featuredBook.title.en}
+        note={featuredBook.logline.en}
+        tags={featuredBook.status?.en ? [featuredBook.status.en] : []}
+        imageSrc={featuredBook.cover?.src}
+        imageAlt={featuredBook.cover?.alt?.en}
+        href="/en/beiva"
+      />
+    ) : null}
 
-  <style>
+    {featuredMusic ? (
+      <HomeHighlightCard
+        lang="en"
+        kind="youtube"
+        title={featuredMusic.title.en}
+        note={featuredMusic.note?.en}
+        tags={featuredMusic.tags}
+        youtubeUrl={featuredMusic.links.youtube}
+        href="/en/beiva"
+      />
+    ) : null}
+
+    {featuredYoutube ? (
+      <HomeHighlightCard
+        lang="en"
+        kind="youtube"
+        title={featuredYoutube.title.en}
+        note={featuredYoutube.note?.en}
+        tags={featuredYoutube.tags}
+        youtubeUrl={featuredYoutube.links.youtube}
+        href="/en/beiva"
+      />
+    ) : null}
+
+    {featuredClip ? (
+      <HomeHighlightCard
+        lang="en"
+        kind="clip"
+        title={featuredClip.title.en}
+        note={featuredClip.note?.en}
+        mp4Src={featuredClip.src}
+        href="/en/beiva"
+      />
+    ) : null}
+  </div>
+</section>
+
+ <style>
     .hero { margin: 6px 0 10px; }
     .lead { margin: 10px 0 14px; opacity: 0.9; font-size: 16px; }
 
@@ -127,5 +175,31 @@ const highlights = [
     }
     .smallLink { text-decoration: none; font-weight: 700; opacity: 0.85; }
     .smallLink:hover { text-decoration: underline; opacity: 1; }
+
+    .beivaGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 14px;
+  row-gap: 42px;              /* ✅ satırlar kesin ayrılır */
+  margin-top: 10px;
+
+  align-items: start;
+  isolation: isolate;         /* ✅ z-index/stacking çakışmalarını keser */
+  position: relative;
+  z-index: 0;
+}
+
+/* Grid item'ların grid akışından çıkmasını engelle */
+.beivaGrid > *{
+  position: relative;
+  z-index: 0;
+  transform: none !important;  /* ✅ eğer bir yerde transform kalmışsa öldürür */
+  margin-top: 0 !important;    /* ✅ negatif margin ihtimalini öldürür */
+}
+
+@media (max-width: 900px){
+  .beivaGrid{ grid-template-columns: 1fr; }
+}
+
   </style>
 </BaseLayout>

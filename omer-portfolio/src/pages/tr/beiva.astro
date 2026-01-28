@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BookCard from "../../components/BookCard.astro";
+import BookCoverCard from "../../components/BookCoverCard.astro";
+import MediaGalleryItem from "../../components/MediaGalleryItem.astro";
 import MediaLinkCard from "../../components/MediaLinkCard.astro";
 import { beiva } from "../../data/beiva";
 ---
@@ -11,26 +12,60 @@ import { beiva } from "../../data/beiva";
 
   <section>
     <h2>Kitaplar</h2>
-    {beiva.books.map((b) => <BookCard book={b} lang="tr" />)}
+    {beiva.books.map((b) => <BookCoverCard book={b} lang="tr" />)}
   </section>
 
   <section>
     <h2>Çizimler</h2>
-    {beiva.art.map((item) => <MediaLinkCard item={item} lang="tr" />)}
+    <div class="grid">
+      {beiva.artImages.map((x) => (
+        <MediaGalleryItem item={{ ...x, kind: "image" }} lang="tr" />
+      ))}
+    </div>
   </section>
 
   <section>
-    <h2>Müzikler</h2>
-    {beiva.music.map((item) => <MediaLinkCard item={item} lang="tr" />)}
+    <h2>Klipler</h2>
+    <div class="grid">
+      {beiva.clips.map((x) => (
+        <MediaGalleryItem item={{ ...x, kind: "clip" }} lang="tr" />
+      ))}
+    </div>
   </section>
 
-  <section>
-    <h2>YouTube</h2>
-    {beiva.youtube.map((item) => <MediaLinkCard item={item} lang="tr" />)}
-  </section>
+<section>
+  <h2>Müzikler</h2>
+  <div class="grid">
+    {beiva.music.map((item) => (
+      <MediaLinkCard item={item} lang="tr" variant="compact" />
+    ))}
+  </div>
+</section>
+
+<section>
+  <h2>YouTube</h2>
+  <div class="grid">
+    {beiva.youtube.map((item) => (
+      <MediaLinkCard item={item} lang="tr" variant="compact" />
+    ))}
+  </div>
+</section>
+
 
   <section>
     <h2>İşbirliği</h2>
-    <p>İnceleme, işbirliği veya proje konuşmak için bağlantılardan bana ulaşabilirsin.</p>
+    <p>İnceleme, işbirliği veya proje konuşmak için bağlantılardan bana ulaşabilirsin: [beiva.universe@gmail.com]</p>
   </section>
+
+  <style>
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
 </BaseLayout>

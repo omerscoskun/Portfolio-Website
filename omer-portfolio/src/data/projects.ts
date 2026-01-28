@@ -21,12 +21,12 @@ export const projects: Project[] = [
     featured: true,
     title: { tr: "Mavera (Konsept Uygulama)", en: "Mavera (Concept App)" },
     summary: {
-      tr: "Konum tabanlı sosyal deney için prototip. Harita üzerinde keşif ve içerik paylaşımı gibi fikirleri test ettim.",
-      en: "A prototype for a location-based social experience. Explores map discovery and content sharing concepts.",
+      tr: "Konum tabanlı sosyal deney için prototip. Harita üzerinde keşif ve içerik paylaşımı gibi fikirleri test ettim. Arkadaşlarımızla birlikte geliştirdik. (Private repository).",
+      en: "A prototype for a location-based social experience. Explores map discovery and content sharing concepts. Developed with friends. (Private repository).",
     },
     tags: ["Mobile"],
     tech: ["Kotlin", "Jetpack Compose"],
-    links: { github: "https://github.com/USERNAME/REPO" },
+    links: { github: "https://github.com/Doukank-api/Mavera.git" },
   },
   {
     id: "editor-desk",
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     },
     tags: ["Backend", "Tools"],
     tech: ["C#", ".NET"],
-    links: { github: "https://github.com/USERNAME/REPO" },
+    links: { github: "https://github.com/omerscoskun/4KEditorUygulamasi.git" },
   },
   {
     id: "ml-experiment",
@@ -50,6 +50,9 @@ export const projects: Project[] = [
     },
     tags: ["AI"],
     tech: ["Python"],
-    links: { github: "https://github.com/USERNAME/REPO" },
+    links: {
+      github:
+        "https://github.com/omerscoskun/Yapay-Zeka-Ve-Bilgisayarli-Goru.git",
+    },
   },
 ];

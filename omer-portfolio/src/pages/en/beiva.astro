@@ -1,36 +1,71 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BookCard from "../../components/BookCard.astro";
+import BookCoverCard from "../../components/BookCoverCard.astro";
+import MediaGalleryItem from "../../components/MediaGalleryItem.astro";
 import MediaLinkCard from "../../components/MediaLinkCard.astro";
 import { beiva } from "../../data/beiva";
 ---
 
-<BaseLayout lang="en" title="Omer | BEIVA" description="BEIVA universe: novels, art, and music" page="beiva">
+<BaseLayout lang="en" title="Omer | BEIVA" description="BEIVA universe: books, art, and music" page="beiva">
   <h1>BEIVA</h1>
   <p>{beiva.intro.en}</p>
 
   <section>
-    <h2>Novels</h2>
-    {beiva.books.map((b) => <BookCard book={b} lang="en" />)}
+    <h2>Books</h2>
+    {beiva.books.map((b) => <BookCoverCard book={b} lang="en" />)}
   </section>
 
   <section>
-    <h2>Art</h2>
-    {beiva.art.map((item) => <MediaLinkCard item={item} lang="en" />)}
+    <h2>Artwork</h2>
+    <div class="grid">
+      {beiva.artImages.map((x) => (
+        <MediaGalleryItem item={{ ...x, kind: "image" }} lang="en" />
+      ))}
+    </div>
   </section>
 
   <section>
-    <h2>Music</h2>
-    {beiva.music.map((item) => <MediaLinkCard item={item} lang="en" />)}
+    <h2>Clips</h2>
+    <div class="grid">
+      {beiva.clips.map((x) => (
+        <MediaGalleryItem item={{ ...x, kind: "clip" }} lang="en" />
+      ))}
+    </div>
   </section>
 
-  <section>
-    <h2>YouTube</h2>
-    {beiva.youtube.map((item) => <MediaLinkCard item={item} lang="en" />)}
-  </section>
+<section>
+  <h2>Music</h2>
+  <div class="grid">
+    {beiva.music.map((item) => (
+      <MediaLinkCard item={item} lang="en" variant="compact" />
+    ))}
+  </div>
+</section>
+
+<section>
+  <h2>YouTube</h2>
+  <div class="grid">
+    {beiva.youtube.map((item) => (
+      <MediaLinkCard item={item} lang="en" variant="compact" />
+    ))}
+  </div>
+</section>
+
 
   <section>
     <h2>Collaboration</h2>
-    <p>For reviews, collaborations, or project ideas, feel free to reach out via the links.</p>
+    <p>For reviews, collaboration, or project discussions, feel free to reach out via the links: [beiva.universe@gmail.com]</p>
   </section>
+
+  <style>
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
 </BaseLayout>

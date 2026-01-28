@@ -2,15 +2,59 @@
 import type { MediaLink } from "../data/beiva";
 import type { Lang } from "../i18n/utils";
 
-const { item, lang } = Astro.props as { item: MediaLink; lang: Lang };
+const { item, lang, variant = "normal" } = Astro.props as {
+  item: MediaLink;
+  lang: Lang;
+  variant?: "normal" | "compact";
+};
 
 const title = item.title[lang];
 const note = item.note?.[lang];
 
-const linkEntries = Object.entries(item.links).filter(([, v]) => typeof v === "string" && v.length > 0) as [string, string][];
+const youtubeUrl = item.links.youtube;
+
+// YouTube URL'den video id çıkar (watch?v=, youtu.be/, shorts/)
+const getYouTubeId = (url?: string) => {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+
+    // youtu.be/<id>
+    if (u.hostname.includes("youtu.be")) {
+      return u.pathname.replace("/", "") || null;
+    }
+
+    // youtube.com/watch?v=<id>
+    const v = u.searchParams.get("v");
+    if (v) return v;
+
+    // youtube.com/shorts/<id>
+    const m = u.pathname.match(/\/shorts\/([A-Za-z0-9_-]{6,})/);
+    if (m?.[1]) return m[1];
+
+    // youtube.com/embed/<id>
+    const e = u.pathname.match(/\/embed\/([A-Za-z0-9_-]{6,})/);
+    if (e?.[1]) return e[1];
+
+    return null;
+  } catch {
+    return null;
+  }
+};
+
+const ytId = getYouTubeId(youtubeUrl);
+
+// Embed URL (mute + autoplay + loop)
+const ytEmbed = ytId
+  ? `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&playsinline=1&modestbranding=1&rel=0`
+  : null;
+
+// Link entries (youtube hariç kalanları al; youtube varsa zaten embed var)
+const linkEntries = Object.entries(item.links)
+  .filter(([k, v]) => typeof v === "string" && v.length > 0 && k !== "youtube") as [string, string][];
 ---
 
-<article class="card">
+<article class={`card ${variant === "compact" ? "compact" : ""}`}>
   <header class="top">
     <h3>{title}</h3>
     {item.tags?.length ? (
@@ -20,9 +64,25 @@ const linkEntries = Object.entries(item.links).filter(([, v]) => typeof v === "s
     ) : null}
   </header>
 
+  {ytEmbed ? (
+    <div class="player">
+      <iframe
+        src={ytEmbed}
+        title={title}
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+  ) : null}
+
   {note ? <p class="note">{note}</p> : null}
 
   <footer class="links">
+    {youtubeUrl ? (
+      <a href={youtubeUrl} target="_blank">YouTube</a>
+    ) : null}
+
     {linkEntries.map(([k, v]) => (
       <a href={v} target="_blank">{k}</a>
     ))}
@@ -31,21 +91,38 @@ const linkEntries = Object.entries(item.links).filter(([, v]) => typeof v === "s
 
 <style>
   .card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin: 15px 0;
-  box-shadow: 0 0 0 rgba(0,0,0,0);
-  transform: translateY(0);
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
-}
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 15px 0;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transform: translateY(0);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
 
-.card:hover{
-  transform: translateY(-3px);
-  box-shadow: var(--shadow);
-  border-color: rgba(255,255,255,0.2);
-}
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+    /* Compact görünüm: Klip kartları gibi */
+  .card.compact{
+    padding: 14px;
+  }
+
+  .card.compact .player{
+    margin-top: 10px;
+  }
+
+  .card.compact .note{
+    margin-top: 8px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  /* İframe zaten responsive; sadece genel ritmi küçültüyoruz */
 
   .top {
     display: flex;
@@ -53,17 +130,36 @@ const linkEntries = Object.entries(item.links).filter(([, v]) => typeof v === "s
     justify-content: space-between;
     gap: 12px;
   }
+
   h3 { margin: 0; }
+
+  .player{
+    margin-top: 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.25);
+  }
+
+  /* Responsive iframe (16:9) */
+  .player iframe{
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    display: block;
+  }
+
   .note { margin: 10px 0 0; opacity: 0.95; }
+
   .tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
   .tag{
-  border: 1px solid rgba(255,255,255,0.18);
-  border-radius: 999px;
-  padding: 4px 9px;
-  font-size: 12px;
-  opacity: 0.9;
-  background: rgba(0,0,0,0.2);
-}
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    padding: 4px 9px;
+    font-size: 12px;
+    opacity: 0.9;
+    background: rgba(0,0,0,0.2);
+  }
 
   .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
   .links a { text-decoration: none; font-weight: 700; }

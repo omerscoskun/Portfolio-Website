@@ -1,0 +1,106 @@
+---
+import type { Book } from "../data/beiva";
+import type { Lang } from "../i18n/utils";
+
+const { book, lang } = Astro.props as { book: Book; lang: Lang };
+
+const title = book.title[lang];
+const logline = book.logline[lang];
+const status = book.status?.[lang];
+
+const coverSrc = book.cover?.src;
+const coverAlt = book.cover?.alt?.[lang] ?? title;
+---
+
+<article class="card">
+  <div class="grid">
+    {coverSrc ? (
+      <div class="cover">
+        <img src={coverSrc} alt={coverAlt} loading="lazy" />
+      </div>
+    ) : null}
+
+    <div class="body">
+      <header class="top">
+        <h3>{title}</h3>
+        {status ? <span class="status">{status}</span> : null}
+      </header>
+
+      <p class="logline">{logline}</p>
+
+      {book.links ? (
+        <footer class="links">
+          {book.links.page ? <a href={book.links.page} target="_blank"> {lang === "tr" ? "Sayfa" : "Page"} </a> : null}
+          {book.links.excerpt ? <a href={book.links.excerpt} target="_blank"> {lang === "tr" ? "Örnek" : "Excerpt"} </a> : null}
+          {book.links.buy ? <a href={book.links.buy} target="_blank"> {lang === "tr" ? "Satın Al" : "Buy"} </a> : null}
+        </footer>
+      ) : null}
+    </div>
+  </div>
+</article>
+
+<style>
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 15px 0;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transform: translateY(0);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .cover{
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.25);
+  }
+  .cover img{
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .top{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  h3{ margin: 0; }
+
+  .status{
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    padding: 4px 9px;
+    font-size: 12px;
+    opacity: 0.9;
+    background: rgba(0,0,0,0.2);
+    white-space: nowrap;
+  }
+  .logline{ margin: 10px 0 0; opacity: 0.95; }
+
+  .links{ display:flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .links a{ text-decoration:none; font-weight: 650; }
+  .links a:hover{ text-decoration: underline; }
+
+  @media (max-width: 720px){
+    .grid{ grid-template-columns: 1fr; }
+    .cover{ max-width: 240px; }
+  }
+</style>

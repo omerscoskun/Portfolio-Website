@@ -1,0 +1,73 @@
+---
+import type { BeivaImage, BeivaClip } from "../data/beiva";
+import type { Lang } from "../i18n/utils";
+
+type Item = (BeivaImage & { kind: "image" }) | (BeivaClip & { kind: "clip" });
+
+const { item, lang } = Astro.props as { item: Item; lang: Lang };
+
+const title = item.title[lang];
+const note = item.note?.[lang];
+---
+
+<article class="card">
+  <div class="media">
+    {item.kind === "image" ? (
+      <img src={item.src} alt={(item as any).alt[lang]} loading="lazy" />
+    ) : (
+      <video
+        src={item.src}
+        poster={item.poster}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      />
+    )}
+  </div>
+
+  <div class="body">
+    <header class="top">
+      <h3>{title}</h3>
+    </header>
+
+    {note ? <p class="note">{note}</p> : null}
+  </div>
+</article>
+
+<style>
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .media{
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.25);
+  }
+
+  img, video{
+    width: 100%;
+    aspect-ratio: 16 / 9; /* çizimler ve klipler için güzel */
+    object-fit: cover;
+    display: block;
+  }
+
+  video{ background: rgba(0,0,0,0.35); }
+
+  .body{ margin-top: 10px; }
+  h3{ margin: 0; font-size: 15px; }
+  .note{ margin: 8px 0 0; opacity: 0.9; }
+</style>

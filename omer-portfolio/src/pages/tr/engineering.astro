@@ -4,20 +4,9 @@ import { t } from "../../i18n/utils";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { projects } from "../../data/projects";
 
-// URL'den tag oku: /tr/engineering?tag=AI
-const tag = Astro.url.searchParams.get("tag");
-
-// Tüm tag'leri çıkar (benzersiz)
-const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
-
-// Filtre uygulanmış liste
-const filtered = tag ? projects.filter((p) => p.tags.includes(tag)) : projects;
-const featured = filtered.filter((p) => p.featured);
-
-// Tag link helper
-const linkFor = (t?: string) => (t ? `/tr/engineering?tag=${encodeURIComponent(t)}` : `/tr/engineering`);
-
 const copy = t("tr");
+
+const featured = projects.filter((p) => p.featured);
 ---
 
 <BaseLayout lang="tr" title="Ömer | Mühendislik" description="Bilgisayar mühendisliği portföyü" page="engineering">
@@ -28,73 +17,107 @@ const copy = t("tr");
   </p>
 
   <h2>Öne Çıkan Projeler</h2>
-  <p>(Bir sonraki adımda buraya proje kartlarını data dosyasından basacağız.)</p>
   {featured.length ? (
-      featured.map((p) => <ProjectCard project={p} lang="tr" />)
-    ) : (
-      <p>Henüz öne çıkan proje eklenmedi.</p>
-    )}
-    
+    featured.map((p) => <ProjectCard project={p} lang="tr" />)
+  ) : (
+    <p>Henüz öne çıkan proje eklenmedi.</p>
+  )}
+
   <h2>Tüm Projeler</h2>
-    <h2>Filtre</h2>
-<div class="filters" role="group" aria-label="Proje etiket filtresi">
-  <a class={tag ? "chip" : "chip active"} href={linkFor()}>
-    Tümü
-  </a>
+  {projects.length ? (
+    projects.map((p) => <ProjectCard project={p} lang="tr" />)
+  ) : (
+    <p>Henüz proje eklenmedi.</p>
+  )}
 
-  {allTags.map((t) => (
-    <a class={tag === t ? "chip active" : "chip"} href={linkFor(t)}>
-      {t}
-    </a>
-  ))}
-</div>
+<h2>Yetenekler</h2>
 
-{tag ? <p class="hint">Seçili etiket: <strong>{tag}</strong></p> : <p class="hint">Tüm projeler gösteriliyor.</p>}
+<section class="skills">
+  <div class="block">
+    <h3>Diller</h3>
+    <ul>
+      <li><strong>C#</strong> (projeler / uygulamalar)</li>
+      <li><strong>Kotlin</strong> (Android)</li>
+      <li><strong>Python</strong> (deneysel çalışmalar / ML)</li>
+      <li><strong>SQL</strong> (temel–orta seviye sorgular)</li>
+    </ul>
+  </div>
 
-  {filtered.map((p) => <ProjectCard project={p} lang="tr" />)}
-  {filtered.length === 0 ? <p>Bu etikette proje bulunamadı.</p> : null}
+  <div class="block">
+    <h3>Framework & Platform</h3>
+    <ul>
+      <li><strong>.NET / .NET Core</strong> (katmanlı mimari denemeleri)</li>
+      <li><strong>ASP.NET Core</strong> (API geliştirme)</li>
+      <li><strong>Entity Framework Core</strong></li>
+      <li><strong>Dapper</strong></li>
+      <li><strong>Android (Jetpack Compose)</strong></li>
+    </ul>
+  </div>
 
+  <div class="block">
+    <h3>Araçlar</h3>
+    <ul>
+      <li><strong>Git & GitHub</strong></li>
+      <li><strong>Docker</strong> (temel container kullanımı)</li>
+      <li><strong>Postman</strong> (API test / koleksiyonlar)</li>
+      <li><strong>VS Code</strong></li>
+    </ul>
+  </div>
 
-  <h2>Yetenekler</h2>
-  <ul>
-    <li>Programlama dilleri: (sonra dolduracağız)</li>
-    <li>Framework/araçlar: (sonra dolduracağız)</li>
-    <li>Odak: (AI / backend / mobile / generalist)</li>
-  </ul>
+  <div class="block">
+    <h3>Mimari & Pratikler</h3>
+    <ul>
+      <li><strong>RESTful API</strong>, JSON</li>
+      <li><strong>Katmanlı Mimari</strong> (Domain / Application / Infrastructure yaklaşımı)</li>
+      <li><strong>OOP</strong>, <strong>SOLID</strong>, temiz kod prensipleri</li>
+      <li><strong>Temel performans/maintainability</strong> odaklı refactor</li>
+    </ul>
+  </div>
 
-  <h2>İletişim</h2>
-  <p>
-    GitHub / LinkedIn / e-posta bağlantılarını footer veya ayrı kart olarak ekleyeceğiz.
-  </p>
+  <div class="block">
+    <h3>Veri & Mesajlaşma</h3>
+    <ul>
+      <li><strong>Redis</strong> (cache mantığı / denemeler)</li>
+      <li><strong>RabbitMQ / Kafka</strong> (event/messaging konseptleri – denemeler)</li>
+      <li><strong>ORM + SQL</strong> birlikte kullanımı (EF Core / Dapper)</li>
+    </ul>
+  </div>
 
-  <style>
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 8px 0 8px;
+  <div class="block">
+    <h3>AI / Deneysel</h3>
+    <ul>
+      <li><strong>Model denemeleri</strong> ve değerlendirme notları (Python)</li>
+      <li><strong>Veri işleme</strong> / basit analiz süreçleri</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .skills{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
   }
-
-  .chip {
-    display: inline-block;
-    padding: 7px 10px;
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 13px;
+  .block{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 14px;
+    background: rgba(255,255,255,0.04);
+  }
+  .block h3{
+    margin: 0 0 8px;
+    font-size: 14px;
     opacity: 0.9;
   }
-
-  .chip:hover { opacity: 1; }
-
-  .chip.active {
-    border-color: rgba(0,0,0,0.6);
-    opacity: 1;
+  .block ul{
+    margin: 0;
+    padding-left: 18px;
   }
-
-  .hint { margin: 6px 0 14px; opacity: 0.85; }
+  .block li{ margin: 6px 0; opacity: 0.92; }
+  @media (max-width: 900px){
+    .skills{ grid-template-columns: 1fr; }
+  }
 </style>
 
 </BaseLayout>
-

@@ -4,93 +4,120 @@ import { t } from "../../i18n/utils";
 import ProjectCard from "../../components/ProjectCard.astro";
 import { projects } from "../../data/projects";
 
-const tag = Astro.url.searchParams.get("tag");
-
-const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
-
-const filtered = tag ? projects.filter((p) => p.tags.includes(tag)) : projects;
-const featured = filtered.filter((p) => p.featured);
-
-const linkFor = (t?: string) => (t ? `/en/engineering?tag=${encodeURIComponent(t)}` : `/en/engineering`);
-
 const copy = t("en");
+
+const featured = projects.filter((p) => p.featured);
 ---
 
 <BaseLayout lang="en" title="Omer | Engineering" description="Computer engineering portfolio" page="engineering">
   <h1>{copy.nav.engineering}</h1>
 
   <p>
-    This page highlights selected projects, the technologies I use, and my current focus areas.
+    This page highlights selected projects, technologies I use, and my current focus areas.
   </p>
 
-
   <h2>Featured Projects</h2>
-  <p>(Next step: we’ll render project cards from a data file.)</p>
   {featured.length ? (
     featured.map((p) => <ProjectCard project={p} lang="en" />)
   ) : (
     <p>No featured projects yet.</p>
   )}
-  
+
   <h2>All Projects</h2>
-  <h2>Filter</h2>
-<div class="filters" role="group" aria-label="Project tag filter">
-  <a class={tag ? "chip" : "chip active"} href={linkFor()}>
-    All
-  </a>
+  {projects.length ? (
+    projects.map((p) => <ProjectCard project={p} lang="en" />)
+  ) : (
+    <p>No projects added yet.</p>
+  )}
 
-  {allTags.map((t) => (
-    <a class={tag === t ? "chip active" : "chip"} href={linkFor(t)}>
-      {t}
-    </a>
-  ))}
-</div>
+<h2>Skills</h2>
 
-{tag ? <p class="hint">Selected tag: <strong>{tag}</strong></p> : <p class="hint">Showing all projects.</p>}
+<section class="skills">
+  <div class="block">
+    <h3>Languages</h3>
+    <ul>
+      <li><strong>C#</strong> (projects / apps)</li>
+      <li><strong>Kotlin</strong> (Android)</li>
+      <li><strong>Python</strong> (experimental work / ML)</li>
+      <li><strong>SQL</strong> (basic–intermediate queries)</li>
+    </ul>
+  </div>
 
-  {filtered.map((p) => <ProjectCard project={p} lang="en" />)}
-  {filtered.length === 0 ? <p>No projects found for this tag.</p> : null}
+  <div class="block">
+    <h3>Frameworks & Platforms</h3>
+    <ul>
+      <li><strong>.NET / .NET Core</strong> (layered architecture experiments)</li>
+      <li><strong>ASP.NET Core</strong> (API development)</li>
+      <li><strong>Entity Framework Core</strong></li>
+      <li><strong>Dapper</strong></li>
+      <li><strong>Android (Jetpack Compose)</strong></li>
+    </ul>
+  </div>
 
+  <div class="block">
+    <h3>Tools</h3>
+    <ul>
+      <li><strong>Git & GitHub</strong></li>
+      <li><strong>Docker</strong> (basic container usage)</li>
+      <li><strong>Postman</strong> (API testing / collections)</li>
+      <li><strong>VS Code</strong></li>
+    </ul>
+  </div>
 
-  <h2>Skills</h2>
-  <ul>
-    <li>Languages: (to be filled)</li>
-    <li>Frameworks/tools: (to be filled)</li>
-    <li>Focus: (AI / backend / mobile / generalist)</li>
-  </ul>
+  <div class="block">
+    <h3>Architecture & Practices</h3>
+    <ul>
+      <li><strong>RESTful APIs</strong>, JSON</li>
+      <li><strong>Layered Architecture</strong> (Domain / Application / Infrastructure style)</li>
+      <li><strong>OOP</strong>, <strong>SOLID</strong>, clean code principles</li>
+      <li><strong>Basic refactoring</strong> for maintainability</li>
+    </ul>
+  </div>
 
-  <h2>Contact</h2>
-  <p>
-    We’ll add GitHub/LinkedIn/email links as a section or footer.
-  </p>
+  <div class="block">
+    <h3>Data & Messaging</h3>
+    <ul>
+      <li><strong>Redis</strong> (caching concepts / experiments)</li>
+      <li><strong>RabbitMQ / Kafka</strong> (messaging/event concepts – experiments)</li>
+      <li><strong>ORM + SQL</strong> usage (EF Core / Dapper)</li>
+    </ul>
+  </div>
 
-  <style>
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 8px 0 8px;
+  <div class="block">
+    <h3>AI / Experimental</h3>
+    <ul>
+      <li><strong>Model experiments</strong> and evaluation notes (Python)</li>
+      <li><strong>Data processing</strong> / simple analysis workflows</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .skills{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
   }
-
-  .chip {
-    display: inline-block;
-    padding: 7px 10px;
-    border: 1px solid rgba(0,0,0,0.18);
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 13px;
+  .block{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 14px;
+    background: rgba(255,255,255,0.04);
+  }
+  .block h3{
+    margin: 0 0 8px;
+    font-size: 14px;
     opacity: 0.9;
   }
-
-  .chip:hover { opacity: 1; }
-
-  .chip.active {
-    border-color: rgba(0,0,0,0.6);
-    opacity: 1;
+  .block ul{
+    margin: 0;
+    padding-left: 18px;
   }
-
-  .hint { margin: 6px 0 14px; opacity: 0.85; }
+  .block li{ margin: 6px 0; opacity: 0.92; }
+  @media (max-width: 900px){
+    .skills{ grid-template-columns: 1fr; }
+  }
 </style>
 
 </BaseLayout>
