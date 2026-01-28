@@ -20,16 +20,16 @@ export const site = {
   socialImage: "/og.png",
 
   socials: [
-    { id: "github", label: "GitHub", url: "https://github.com/USERNAME" },
+    { id: "github", label: "GitHub", url: "https://github.com/omerscoskun" },
     {
       id: "linkedin",
       label: "LinkedIn",
-      url: "https://www.linkedin.com/in/USERNAME/",
+      url: "https://www.linkedin.com/in/omer-sait-coskun-2066a9344/",
     },
     {
       id: "youtube",
       label: "YouTube",
-      url: "https://www.youtube.com/@USERNAME",
+      url: "https://www.youtube.com/@beiva.universe",
     },
     {
       id: "linktree",
