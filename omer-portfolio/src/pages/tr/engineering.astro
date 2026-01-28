@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t } from "../../i18n/utils";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { projects } from "../../data/projects";
+
+// URL'den tag oku: /tr/engineering?tag=AI
+const tag = Astro.url.searchParams.get("tag");
+
+// Tüm tag'leri çıkar (benzersiz)
+const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
+
+// Filtre uygulanmış liste
+const filtered = tag ? projects.filter((p) => p.tags.includes(tag)) : projects;
+const featured = filtered.filter((p) => p.featured);
+
+// Tag link helper
+const linkFor = (t?: string) => (t ? `/tr/engineering?tag=${encodeURIComponent(t)}` : `/tr/engineering`);
+
+const copy = t("tr");
+---
+
+<BaseLayout lang="tr" title="Ömer | Mühendislik" description="Bilgisayar mühendisliği portföyü" page="engineering">
+  <h1>{copy.nav.engineering}</h1>
+
+  <p>
+    Bu sayfa; seçili projelerimi, kullandığım teknolojileri ve çalışma odağımı özetler.
+  </p>
+
+  <h2>Öne Çıkan Projeler</h2>
+  <p>(Bir sonraki adımda buraya proje kartlarını data dosyasından basacağız.)</p>
+  {featured.length ? (
+      featured.map((p) => <ProjectCard project={p} lang="tr" />)
+    ) : (
+      <p>Henüz öne çıkan proje eklenmedi.</p>
+    )}
+    
+  <h2>Tüm Projeler</h2>
+    <h2>Filtre</h2>
+<div class="filters" role="group" aria-label="Proje etiket filtresi">
+  <a class={tag ? "chip" : "chip active"} href={linkFor()}>
+    Tümü
+  </a>
+
+  {allTags.map((t) => (
+    <a class={tag === t ? "chip active" : "chip"} href={linkFor(t)}>
+      {t}
+    </a>
+  ))}
+</div>
+
+{tag ? <p class="hint">Seçili etiket: <strong>{tag}</strong></p> : <p class="hint">Tüm projeler gösteriliyor.</p>}
+
+  {filtered.map((p) => <ProjectCard project={p} lang="tr" />)}
+  {filtered.length === 0 ? <p>Bu etikette proje bulunamadı.</p> : null}
+
+
+  <h2>Yetenekler</h2>
+  <ul>
+    <li>Programlama dilleri: (sonra dolduracağız)</li>
+    <li>Framework/araçlar: (sonra dolduracağız)</li>
+    <li>Odak: (AI / backend / mobile / generalist)</li>
+  </ul>
+
+  <h2>İletişim</h2>
+  <p>
+    GitHub / LinkedIn / e-posta bağlantılarını footer veya ayrı kart olarak ekleyeceğiz.
+  </p>
+
+  <style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 8px;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 7px 10px;
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .chip:hover { opacity: 1; }
+
+  .chip.active {
+    border-color: rgba(0,0,0,0.6);
+    opacity: 1;
+  }
+
+  .hint { margin: 6px 0 14px; opacity: 0.85; }
+</style>
+
+</BaseLayout>
+

@@ -1,0 +1,75 @@
+---
+const {
+  src = "/profile.jpg",
+  alt = "Profile photo",
+  title,
+  subtitle,
+} = Astro.props as {
+  src?: string;
+  alt?: string;
+  title?: string;
+  subtitle?: string;
+};
+---
+
+<aside class="card">
+  <div class="frame">
+    <img src={src} alt={alt} loading="lazy" />
+  </div>
+
+  {(title || subtitle) ? (
+    <div class="meta">
+      {title ? <div class="t">{title}</div> : null}
+      {subtitle ? <div class="s">{subtitle}</div> : null}
+    </div>
+  ) : null}
+</aside>
+
+<style>
+  .card{
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    padding: 14px;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+    max-width: 340px;
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .frame{
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(0,0,0,0.25);
+  }
+
+  /* Dikey format ama aşırı uzun değil */
+  img{
+  width: 100%;
+  aspect-ratio: 3 / 4;   /* DİKEY */
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transform: scale(2.5);          /* ZOOM */
+  transition: transform var(--dur) var(--ease);
+}
+  .meta{
+    margin-top: 10px;
+  }
+  .t{
+    font-weight: 850;
+    letter-spacing: -0.2px;
+  }
+  .s{
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+</style>

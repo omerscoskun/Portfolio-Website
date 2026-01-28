@@ -1,0 +1,22 @@
+---
+import { switchLangPath } from "../i18n/utils";
+
+const { pathname } = Astro.url;
+const target = switchLangPath(pathname);
+const isTR = pathname.startsWith("/tr");
+---
+
+<a class="lang" href={target} aria-label="Switch language">
+  {isTR ? "EN" : "TR"}
+</a>
+
+<style>
+  .lang {
+    padding: 8px 10px;
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .lang:hover { opacity: 0.8; }
+</style>

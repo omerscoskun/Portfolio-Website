@@ -1,0 +1,131 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HighlightRow from "../../components/HighlightRow.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import BookCard from "../../components/BookCard.astro";
+import MediaLinkCard from "../../components/MediaLinkCard.astro";
+
+import { projects } from "../../data/projects";
+import { beiva } from "../../data/beiva";
+import { site } from "../../data/site";
+import ProfilePhotoCard from "../../components/ProfilePhotoCard.astro";
+
+const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+
+const featuredBook = beiva.books.find((b) => b.id === beiva.featured.bookId) ?? beiva.books[0];
+const featuredMusic = beiva.music.find((m) => m.id === beiva.featured.musicId) ?? beiva.music[0];
+const featuredYoutube = beiva.youtube.find((y) => y.id === beiva.featured.youtubeId) ?? beiva.youtube[0];
+
+// Highlight texts
+const highlights = [
+  "Hello, my name is Ömer Sait Coşkun. I am a Computer Engineering student at Süleyman Demirel University. I enjoy continuously improving myself in software development, learning by exploring new technologies, and turning what I learn into real projects. I am especially motivated by problem-solving, systematic thinking, and transforming an idea step by step into a working product. In this process, I focus on building solutions that are not only functional, but also clear, maintainable, and scalable.",
+  "In addition, I am working on a comprehensive science fiction universe called BEIVA. This project brings together multiple disciplines such as writing, world-building, visual/audio production, and content development. Through BEIVA, I combine storytelling with narrative consistency while also building a disciplined creation habit: planning ideas, breaking them down, organizing them, and continuously improving them. This approach blending analytical thinking with creative production directly reflects in my projects as well.",
+  "On my self-improvement journey, I aim to pursue both my academic work and personal projects in parallel. I value discovering new tools and approaches, testing what I learn in practice, and creating solutions that truly meet real needs. On this website, you can find the projects I’m working on, my technical skills, and the creative work I produce within BEIVA. Feel free to reach out if you’d like to collaborate. Thank you.",
+];
+---
+
+<BaseLayout lang="en" title="Omer | Portfolio" description="Engineering + BEIVA portfolio" page="home">
+  <section class="hero" transition:name="hero">
+    <h1>{site.name}</h1>
+    <p class="lead">
+      Computer Engineering Student • Novelist • Creator
+    </p>
+
+    <div class="cta">
+      <a class="btn" href="/en/engineering">Engineering</a>
+      <a class="btn ghost" href="/en/beiva">BEIVA</a>
+    </div>
+  </section>
+
+   <section class="introGrid">
+    <div>
+      <HighlightRow items={highlights} />
+    </div>
+
+    <ProfilePhotoCard
+      src="/profile.jpg"
+      alt="Ömer Sait Coşkun"
+      title="Ömer Sait Coşkun"
+      subtitle="Computer Engineering Student • Novelist • Creator"
+    />
+  </section>
+
+  <section>
+    <div class="sectionHead">
+      <h2>Featured Projects</h2>
+      <a class="smallLink" href="/en/engineering">View all →</a>
+    </div>
+
+    {featuredProjects.length ? (
+      featuredProjects.map((p) => <ProjectCard project={p} lang="en" />)
+    ) : (
+      <p>No featured projects yet.</p>
+    )}
+  </section>
+
+  <section>
+    <div class="sectionHead">
+      <h2>BEIVA Highlights</h2>
+      <a class="smallLink" href="/en/beiva">View all →</a>
+    </div>
+
+    {featuredBook ? <BookCard book={featuredBook} lang="en" /> : null}
+    {featuredMusic ? <MediaLinkCard item={featuredMusic} lang="en" /> : null}
+    {featuredYoutube ? <MediaLinkCard item={featuredYoutube} lang="en" /> : null}
+  </section>
+
+  <style>
+    .hero { margin: 6px 0 10px; }
+    .lead { margin: 10px 0 14px; opacity: 0.9; font-size: 16px; }
+
+    .cta { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0 10px; }
+    .btn{
+      display:inline-block;
+      padding: 10px 14px;
+      border-radius: 14px;
+      text-decoration:none;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    }
+
+    .btn:hover{ transform: translateY(-2px); border-color: rgba(255,255,255,0.28); }
+
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(124,92,255,0.9), rgba(56,189,248,0.55));
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .ghost { opacity: 0.85; }
+
+    .introGrid{
+      display: grid;
+      grid-template-columns: 1fr 340px; /* sağ kolon sabit: fotoğraf kartı */
+      gap: 18px;
+      align-items: start;
+      margin-top: 10px;
+    }
+
+    .photo{
+      justify-self: end; /* sağa yasla */
+    }
+
+    /* Dar ekranda alt alta düşsün */
+    @media (max-width: 980px){
+      .introGrid{ grid-template-columns: 1fr; }
+      .photo{ justify-self: start; }
+    }
+
+
+    .sectionHead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .smallLink { text-decoration: none; font-weight: 700; opacity: 0.85; }
+    .smallLink:hover { text-decoration: underline; opacity: 1; }
+  </style>
+</BaseLayout>

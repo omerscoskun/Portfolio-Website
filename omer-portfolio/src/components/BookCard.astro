@@ -1,0 +1,70 @@
+---
+import type { Book } from "../data/beiva";
+import type { Lang } from "../i18n/utils";
+
+const { book, lang } = Astro.props as { book: Book; lang: Lang };
+
+const title = book.title[lang];
+const logline = book.logline[lang];
+const status = book.status?.[lang];
+---
+
+<article class="card">
+  <header class="top">
+    <h3>{title}</h3>
+    {status ? <span class="status">{status}</span> : null}
+  </header>
+
+  <p class="logline">{logline}</p>
+
+  {book.links ? (
+    <footer class="links">
+      {book.links.page ? <a href={book.links.page} target="_blank">{lang === "tr" ? "Sayfa" : "Page"}</a> : null}
+      {book.links.excerpt ? <a href={book.links.excerpt} target="_blank">{lang === "tr" ? "Örnek" : "Excerpt"}</a> : null}
+      {book.links.buy ? <a href={book.links.buy} target="_blank">{lang === "tr" ? "Satın Al" : "Buy"}</a> : null}
+    </footer>
+  ) : null}
+</article>
+
+<style>
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 15px 0;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transform: translateY(0);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: rgba(255,255,255,0.2);
+}
+
+  .top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  h3 { margin: 0; }
+  .status {
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 12px;
+  opacity: 0.9;
+  background: rgba(0,0,0,0.2);
+  }
+  .logline { margin: 10px 0 0; opacity: 0.95; }
+  .links {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .links a { text-decoration: none; font-weight: 600; }
+  .links a:hover { text-decoration: underline; }
+</style>

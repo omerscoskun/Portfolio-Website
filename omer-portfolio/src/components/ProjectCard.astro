@@ -1,0 +1,89 @@
+---
+import type { Project } from "../data/projects";
+import type { Lang } from "../i18n/utils";
+
+const { project, lang } = Astro.props as { project: Project; lang: Lang };
+
+const title = project.title[lang];
+const summary = project.summary[lang];
+---
+
+<article class="card">
+  <header class="top">
+    <h3>{title}</h3>
+    {project.tags?.length ? (
+      <div class="tags">
+        {project.tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    ) : null}
+  </header>
+
+  <p class="summary">{summary}</p>
+
+  {project.tech?.length ? (
+    <p class="tech">
+      <strong>{lang === "tr" ? "Teknolojiler:" : "Tech:"}</strong>
+      {" "}{project.tech.join(" • ")}
+    </p>
+  ) : null}
+
+  {project.links ? (
+    <footer class="links">
+      {project.links.github ? <a href={project.links.github} target="_blank">GitHub</a> : null}
+      {project.links.demo ? <a href={project.links.demo} target="_blank">Demo</a> : null}
+      {project.links.video ? <a href={project.links.video} target="_blank">Video</a> : null}
+    </footer>
+  ) : null}
+</article>
+
+<style>
+  .card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 15px 0;
+  padding: 16px;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transform: translateY(0);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: rgba(255,255,255,0.2);
+}
+
+
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  h3 { margin: 0; }
+
+  .summary { margin: 10px 0 0; opacity: 0.95; }
+
+  .tech { margin: 10px 0 0; opacity: 0.85; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+  .tag{
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 12px;
+  opacity: 0.9;
+  background: rgba(0,0,0,0.2);
+}
+
+
+  .links {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .links a { text-decoration: none; font-weight: 600; }
+  .links a:hover { text-decoration: underline; }
+</style>

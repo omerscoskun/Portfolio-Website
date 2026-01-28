@@ -1,0 +1,91 @@
+---
+import LanguageToggle from "./LanguageToggle.astro";
+import { getLangFromPath, t } from "../i18n/utils";
+
+const { pathname } = Astro.url;
+const lang = getLangFromPath(pathname);
+const copy = t(lang);
+
+// Link prefix: /tr veya /en
+const prefix = lang === "tr" ? "/tr" : "/en";
+
+// Aktif link tespiti
+const normalize = (p: string) => (p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p);
+const current = normalize(pathname);
+
+const isActive = (href: string) => normalize(href) === current;
+---
+
+<header class="wrap">
+  <a class="brand" href={`${prefix}`}></a>
+
+<nav class="nav">
+  <a
+    href={`${prefix}`}
+    class={isActive(`${prefix}`) ? "active" : ""}
+    aria-current={isActive(`${prefix}`) ? "page" : undefined}
+  >
+    {copy.nav.home}
+  </a>
+
+  <a
+    href={`${prefix}/engineering`}
+    class={isActive(`${prefix}/engineering`) ? "active" : ""}
+    aria-current={isActive(`${prefix}/engineering`) ? "page" : undefined}
+  >
+    {copy.nav.engineering}
+  </a>
+
+  <a
+    href={`${prefix}/beiva`}
+    class={isActive(`${prefix}/beiva`) ? "active" : ""}
+    aria-current={isActive(`${prefix}/beiva`) ? "page" : undefined}
+  >
+    {copy.nav.beiva}
+  </a>
+</nav>
+
+
+  <div class="right">
+    <LanguageToggle />
+  </div>
+</header>
+
+<style>
+  .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .brand {
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .nav a {
+    text-decoration: none;
+    opacity: 0.9;
+  }
+  .nav a:hover { opacity: 1; text-decoration: underline; }
+
+  .nav a.active {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  opacity: 1;
+  font-weight: 800;
+  text-decoration-color: var(--accent);
+  }
+
+
+  .right { display: flex; align-items: center; }
+</style>

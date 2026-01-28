@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { t } from "../../i18n/utils";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { projects } from "../../data/projects";
+
+const tag = Astro.url.searchParams.get("tag");
+
+const allTags = Array.from(new Set(projects.flatMap((p) => p.tags))).sort();
+
+const filtered = tag ? projects.filter((p) => p.tags.includes(tag)) : projects;
+const featured = filtered.filter((p) => p.featured);
+
+const linkFor = (t?: string) => (t ? `/en/engineering?tag=${encodeURIComponent(t)}` : `/en/engineering`);
+
+const copy = t("en");
+---
+
+<BaseLayout lang="en" title="Omer | Engineering" description="Computer engineering portfolio" page="engineering">
+  <h1>{copy.nav.engineering}</h1>
+
+  <p>
+    This page highlights selected projects, the technologies I use, and my current focus areas.
+  </p>
+
+
+  <h2>Featured Projects</h2>
+  <p>(Next step: we’ll render project cards from a data file.)</p>
+  {featured.length ? (
+    featured.map((p) => <ProjectCard project={p} lang="en" />)
+  ) : (
+    <p>No featured projects yet.</p>
+  )}
+  
+  <h2>All Projects</h2>
+  <h2>Filter</h2>
+<div class="filters" role="group" aria-label="Project tag filter">
+  <a class={tag ? "chip" : "chip active"} href={linkFor()}>
+    All
+  </a>
+
+  {allTags.map((t) => (
+    <a class={tag === t ? "chip active" : "chip"} href={linkFor(t)}>
+      {t}
+    </a>
+  ))}
+</div>
+
+{tag ? <p class="hint">Selected tag: <strong>{tag}</strong></p> : <p class="hint">Showing all projects.</p>}
+
+  {filtered.map((p) => <ProjectCard project={p} lang="en" />)}
+  {filtered.length === 0 ? <p>No projects found for this tag.</p> : null}
+
+
+  <h2>Skills</h2>
+  <ul>
+    <li>Languages: (to be filled)</li>
+    <li>Frameworks/tools: (to be filled)</li>
+    <li>Focus: (AI / backend / mobile / generalist)</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <p>
+    We’ll add GitHub/LinkedIn/email links as a section or footer.
+  </p>
+
+  <style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 8px;
+  }
+
+  .chip {
+    display: inline-block;
+    padding: 7px 10px;
+    border: 1px solid rgba(0,0,0,0.18);
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  .chip:hover { opacity: 1; }
+
+  .chip.active {
+    border-color: rgba(0,0,0,0.6);
+    opacity: 1;
+  }
+
+  .hint { margin: 6px 0 14px; opacity: 0.85; }
+</style>
+
+</BaseLayout>

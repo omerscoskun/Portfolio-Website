@@ -1,0 +1,71 @@
+---
+import type { MediaLink } from "../data/beiva";
+import type { Lang } from "../i18n/utils";
+
+const { item, lang } = Astro.props as { item: MediaLink; lang: Lang };
+
+const title = item.title[lang];
+const note = item.note?.[lang];
+
+const linkEntries = Object.entries(item.links).filter(([, v]) => typeof v === "string" && v.length > 0) as [string, string][];
+---
+
+<article class="card">
+  <header class="top">
+    <h3>{title}</h3>
+    {item.tags?.length ? (
+      <div class="tags">
+        {item.tags.map((t) => <span class="tag">{t}</span>)}
+      </div>
+    ) : null}
+  </header>
+
+  {note ? <p class="note">{note}</p> : null}
+
+  <footer class="links">
+    {linkEntries.map(([k, v]) => (
+      <a href={v} target="_blank">{k}</a>
+    ))}
+  </footer>
+</article>
+
+<style>
+  .card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 15px 0;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transform: translateY(0);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.card:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: rgba(255,255,255,0.2);
+}
+
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  h3 { margin: 0; }
+  .note { margin: 10px 0 0; opacity: 0.95; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+  .tag{
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 12px;
+  opacity: 0.9;
+  background: rgba(0,0,0,0.2);
+}
+
+  .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  .links a { text-decoration: none; font-weight: 700; }
+  .links a:hover { text-decoration: underline; }
+</style>
