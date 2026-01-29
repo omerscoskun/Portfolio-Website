@@ -70,7 +70,7 @@ export const beiva = {
         src: "/beiva/covers/beiva-1.jpg",
         alt: { tr: "BEIVA Kitap I Kapak", en: "BEIVA Book I Cover" },
       },
-      links: { page: "https://example.com" },
+      links: { page: "https://linktr.ee/beiva" },
     },
     {
       id: "beiva-2",
@@ -84,7 +84,7 @@ export const beiva = {
         src: "/beiva/covers/beiva-2.jpg",
         alt: { tr: "BEIVA Kitap II Kapak", en: "BEIVA Book II Cover" },
       },
-      links: { page: "https://example.com" },
+      links: { page: "https://linktr.ee/beiva" },
     },
   ],
   artImages: [
