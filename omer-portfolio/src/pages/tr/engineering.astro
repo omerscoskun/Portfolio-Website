@@ -16,20 +16,6 @@ const featured = projects.filter((p) => p.featured);
     Bu sayfa; seçili projelerimi, kullandığım teknolojileri ve çalışma odağımı özetler.
   </p>
 
-  <h2>Öne Çıkan Projeler</h2>
-  {featured.length ? (
-    featured.map((p) => <ProjectCard project={p} lang="tr" />)
-  ) : (
-    <p>Henüz öne çıkan proje eklenmedi.</p>
-  )}
-
-  <h2>Tüm Projeler</h2>
-  {projects.length ? (
-    projects.map((p) => <ProjectCard project={p} lang="tr" />)
-  ) : (
-    <p>Henüz proje eklenmedi.</p>
-  )}
-
 <h2>Yetenekler</h2>
 
 <section class="skills">
@@ -115,9 +101,75 @@ const featured = projects.filter((p) => p.featured);
     padding-left: 18px;
   }
   .block li{ margin: 6px 0; opacity: 0.92; }
+  .internships{
+    margin-top: 8px;
+  }
+  .internshipCard{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.04);
+  }
+  .internshipHeader h3{
+    margin: 0 0 6px;
+    font-size: 16px;
+  }
+  .internshipMeta{
+    margin: 0 0 10px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .internshipCard ul{
+    margin: 0 0 10px;
+    padding-left: 18px;
+  }
+  .internshipCard li{
+    margin: 6px 0;
+    opacity: 0.92;
+  }
+  .internshipStack{
+    margin: 0 0 8px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .internshipLink{
+    font-size: 13px;
+  }
   @media (max-width: 900px){
     .skills{ grid-template-columns: 1fr; }
   }
 </style>
+
+<h2>Staj</h2>
+<section class="internships">
+  <article class="internshipCard">
+    <div class="internshipHeader">
+      <h3>Kuzey Marmara Otoyolu İşletme A.Ş.</h3>
+      <p class="internshipMeta">Stajyer / IT Departmanı • 4 Ağustos 2025 – 29 Ağustos 2025 • İstanbul / Sarıyer</p>
+    </div>
+    <ul>
+      <li>SOLID yapısını öğrenme ve uygulama.</li>
+      <li>Şirket içi işlenişi öğrenme.</li>
+      <li>Backend temelleri üzerine çalışmalar.</li>
+      <li>İstenilen projeyi geliştirme: 4kEditorUygulaması / EditorDesk.</li>
+    </ul>
+    <p class="internshipStack"><strong>Teknolojiler:</strong> .NET Core, ASP.NET, C#, Docker, PostgreSQL, Postman</p>
+    <a class="internshipLink" href="https://www.kuzeymarmaraotoyolu.com/" target="_blank" rel="noreferrer">Kurum web sitesi</a>
+  </article>
+</section>
+
+<h2>Öne Çıkan Projeler</h2>
+{featured.length ? (
+  featured.map((p) => <ProjectCard project={p} lang="tr" />)
+) : (
+  <p>Henüz öne çıkan proje eklenmedi.</p>
+)}
+
+<h2>Tüm Projeler</h2>
+{projects.length ? (
+  projects.map((p) => <ProjectCard project={p} lang="tr" />)
+) : (
+  <p>Henüz proje eklenmedi.</p>
+)}
 
 </BaseLayout>

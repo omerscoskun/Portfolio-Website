@@ -16,20 +16,6 @@ const featured = projects.filter((p) => p.featured);
     This page highlights selected projects, technologies I use, and my current focus areas.
   </p>
 
-  <h2>Featured Projects</h2>
-  {featured.length ? (
-    featured.map((p) => <ProjectCard project={p} lang="en" />)
-  ) : (
-    <p>No featured projects yet.</p>
-  )}
-
-  <h2>All Projects</h2>
-  {projects.length ? (
-    projects.map((p) => <ProjectCard project={p} lang="en" />)
-  ) : (
-    <p>No projects added yet.</p>
-  )}
-
 <h2>Skills</h2>
 
 <section class="skills">
@@ -115,9 +101,75 @@ const featured = projects.filter((p) => p.featured);
     padding-left: 18px;
   }
   .block li{ margin: 6px 0; opacity: 0.92; }
+  .internships{
+    margin-top: 8px;
+  }
+  .internshipCard{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.04);
+  }
+  .internshipHeader h3{
+    margin: 0 0 6px;
+    font-size: 16px;
+  }
+  .internshipMeta{
+    margin: 0 0 10px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .internshipCard ul{
+    margin: 0 0 10px;
+    padding-left: 18px;
+  }
+  .internshipCard li{
+    margin: 6px 0;
+    opacity: 0.92;
+  }
+  .internshipStack{
+    margin: 0 0 8px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .internshipLink{
+    font-size: 13px;
+  }
   @media (max-width: 900px){
     .skills{ grid-template-columns: 1fr; }
   }
 </style>
+
+<h2>Internship</h2>
+<section class="internships">
+  <article class="internshipCard">
+    <div class="internshipHeader">
+      <h3>Kuzey Marmara Otoyolu İşletme A.Ş.</h3>
+      <p class="internshipMeta">Intern / IT Department • Aug 4, 2025 – Aug 29, 2025 • Istanbul / Sarıyer</p>
+    </div>
+    <ul>
+      <li>Learned and applied SOLID principles.</li>
+      <li>Observed internal company processes.</li>
+      <li>Worked on backend fundamentals.</li>
+      <li>Built the requested project: 4kEditorUygulaması / EditorDesk.</li>
+    </ul>
+    <p class="internshipStack"><strong>Technologies:</strong> .NET Core, ASP.NET, C#, Docker, PostgreSQL, Postman</p>
+    <a class="internshipLink" href="https://www.kuzeymarmaraotoyolu.com/" target="_blank" rel="noreferrer">Company website</a>
+  </article>
+</section>
+
+<h2>Featured Projects</h2>
+{featured.length ? (
+  featured.map((p) => <ProjectCard project={p} lang="en" />)
+) : (
+  <p>No featured projects yet.</p>
+)}
+
+<h2>All Projects</h2>
+{projects.length ? (
+  projects.map((p) => <ProjectCard project={p} lang="en" />)
+) : (
+  <p>No projects added yet.</p>
+)}
 
 </BaseLayout>

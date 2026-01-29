@@ -57,6 +57,63 @@ import { beiva } from "../../data/beiva";
     <p>For reviews, collaboration, or project discussions, feel free to reach out via the links: [beiva.universe@gmail.com]</p>
   </section>
 
+  <script is:inline data-astro-rerun>
+    (() => {
+      const initBeivaVideos = () => {
+        const videos = Array.from(
+          document.querySelectorAll("video[data-beiva-video]")
+        );
+        if (!videos.length) return;
+
+        const tryPlay = (video) => {
+          video.muted = true;
+          video.playsInline = true;
+          const p = video.play();
+          if (p && typeof p.catch === "function") p.catch(() => {});
+        };
+
+        const ensurePlayable = (video) => {
+          if (video.readyState >= 2) {
+            tryPlay(video);
+            return;
+          }
+          video.load();
+          video.addEventListener(
+            "canplay",
+            () => {
+              tryPlay(video);
+            },
+            { once: true }
+          );
+        };
+
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                ensurePlayable(entry.target);
+                observer.unobserve(entry.target);
+              });
+            },
+            { threshold: 0.2 }
+          );
+          videos.forEach((video) => observer.observe(video));
+        } else {
+          videos.forEach((video) => ensurePlayable(video));
+        }
+      };
+
+      initBeivaVideos();
+
+      if (!window.__beivaVideoInit) {
+        window.__beivaVideoInit = true;
+        document.addEventListener("astro:page-load", initBeivaVideos);
+        document.addEventListener("astro:after-swap", initBeivaVideos);
+      }
+    })();
+  </script>
+
   <style>
     .grid{
       display: grid;
