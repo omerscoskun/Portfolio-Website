@@ -17,7 +17,6 @@ const socialsLabel = lang === "tr" ? "Sosyal" : "Social";
         {emailLabel}:
         <a href={`mailto:${site.email}`}>{site.email}</a>
       </p>
-      {site.number ? <p class="muted">Tel: <a href={`tel:${site.number}`}>{site.number}</a></p> : null}
       {site.location ? <p class="muted">{site.location}</p> : null}
 
     </div>

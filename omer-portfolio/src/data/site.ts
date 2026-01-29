@@ -8,11 +8,10 @@ export type SocialLink = {
 
 export const site = {
   name: "Ömer Sait Coşkun",
-  email: "omersaitcoskun@gmail.com", // TODO: gerçek mailinle değiştir
-  number: "+90 507 217 12 02", // TODO: gerçek telefon numaranla değiştir
-  location: "Türkiye", // opsiyonel
+  email: "omersaitcoskun@gmail.com",
+  location: "Türkiye",
 
-  url: "https://example.com", // TODO: kendi domainin veya GitHub Pages URL'n
+  url: "https://example.com",
   defaultDescription: {
     tr: "Engineering + BEIVA portföyü. Projeler, kitaplar, çizimler ve müzikler.",
     en: "Engineering + BEIVA portfolio. Projects, novels, art, and music.",
