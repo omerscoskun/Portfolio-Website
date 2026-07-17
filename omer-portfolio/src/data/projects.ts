@@ -5,8 +5,8 @@ export type Project = {
   title: { tr: string; en: string };
   summary: { tr: string; en: string };
 
-  tags: string[]; // örn: ["AI", "Backend", "Mobile"]
-  tech?: string[]; // örn: ["C#", ".NET", "EF Core"]
+  tags: string[];
+  tech?: string[];
 
   links?: {
     github?: string;
@@ -28,7 +28,15 @@ export const projects: Project[] = [
       en: "A working mobile app where users can create photo-based journals. Built together with a teammate. The mobile client is developed with React Native, Expo and TypeScript, featuring secure authentication, Redis-based caching, a RabbitMQ worker structure and Jenkins-based CI/CD. The app is functional but not yet published on the App Store / Google Play. (Private repository).",
     },
     tags: ["Mobile", "Backend"],
-    tech: ["React Native", "Expo", "TypeScript", "Redis", "RabbitMQ", "Jenkins", "CI/CD"],
+    tech: [
+      "React Native",
+      "Expo",
+      "TypeScript",
+      "Redis",
+      "RabbitMQ",
+      "Jenkins",
+      "CI/CD",
+    ],
   },
   {
     id: "forest-fire",
@@ -38,8 +46,8 @@ export const projects: Project[] = [
       en: "Forest Fire Risk Analysis & Prediction System (TÜBİTAK)",
     },
     summary: {
-      tr: "TÜBİTAK kapsamında bir ekip arkadaşımla geliştirmekte olduğumuz bitirme projesi. Hava durumu, insan etkisi, coğrafi katmanlar, uydu verileri ve geçmiş yangın kayıtlarını birleştirerek harita tabanlı risk görselleştirmesi ile bugün, yarın ve bir haftaya kadar yangın riski tahmini üretir. Sistem; ASP.NET Core REST API, React dashboard, PostgreSQL/PostGIS veritabanı ve Python tabanlı makine öğrenmesi katmanlarından oluşur. Geliştirme süreci devam ediyor (2027 yazı hedefleniyor). (Private repository).",
-      en: "A graduation project developed with a teammate under TÜBİTAK. It combines weather, human impact, geographic layers, satellite data and historical fire records to produce map-based risk visualization and fire-risk predictions for today, tomorrow and up to one week ahead. The system consists of an ASP.NET Core REST API, a React dashboard, a PostgreSQL/PostGIS database and Python-based machine learning layers. Development is ongoing (targeting summer 2027). (Private repository).",
+      tr: "Bir ekip arkadaşımla geliştirdiğim, bitirme projesi olarak tamamlanan ve TÜBİTAK kapsamında geliştirilmeye devam eden sistem. Hava durumu, insan etkisi, coğrafi katmanlar, uydu verileri ve geçmiş yangın kayıtlarını birleştirerek harita tabanlı risk görselleştirmesi ile bugün, yarın ve bir haftaya kadar yangın riski tahmini üretir. Sistem; ASP.NET Core REST API, React dashboard, PostgreSQL/PostGIS veritabanı ve Python tabanlı makine öğrenmesi katmanlarından oluşur. TÜBİTAK süreci devam ediyor (2027 yazı hedefleniyor). (Private repository).",
+      en: "A system built with a teammate, completed as my graduation project and still being developed under TÜBİTAK. It combines weather, human impact, geographic layers, satellite data and historical fire records to produce map-based risk visualization and fire-risk predictions for today, tomorrow and up to one week ahead. The system consists of an ASP.NET Core REST API, a React dashboard, a PostgreSQL/PostGIS database and Python-based machine learning layers. The TÜBİTAK process is ongoing (targeting summer 2027). (Private repository).",
     },
     tags: ["AI", "Backend", "GIS"],
     tech: [

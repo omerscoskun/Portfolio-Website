@@ -1,15 +1,14 @@
 ---
 import LanguageToggle from "./LanguageToggle.astro";
+import CvDownload from "./CvDownload.astro";
 import { getLangFromPath, t } from "../i18n/utils";
 
 const { pathname } = Astro.url;
 const lang = getLangFromPath(pathname);
 const copy = t(lang);
 
-// Link prefix: /tr veya /en
 const prefix = lang === "tr" ? "/tr" : "/en";
 
-// Aktif link tespiti
 const normalize = (p: string) => (p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p);
 const current = normalize(pathname);
 
@@ -47,6 +46,7 @@ const isActive = (href: string) => normalize(href) === current;
 
 
   <div class="right">
+    <CvDownload lang={lang} />
     <LanguageToggle />
   </div>
 </header>
@@ -87,5 +87,5 @@ const isActive = (href: string) => normalize(href) === current;
   }
 
 
-  .right { display: flex; align-items: center; }
+  .right { display: flex; align-items: center; gap: 8px; }
 </style>

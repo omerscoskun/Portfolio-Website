@@ -12,9 +12,6 @@ import { site } from "../../data/site";
 import ProfilePhotoCard from "../../components/ProfilePhotoCard.astro";
 import MediaGalleryItem from "../../components/MediaGalleryItem.astro";
 
-
-
-// Featured seçimi
 const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
 
 const featuredBook = beiva.books.find((b) => b.id === beiva.featured.bookId) ?? beiva.books[0];
@@ -22,8 +19,6 @@ const featuredMusic = beiva.music.find((m) => m.id === beiva.featured.musicId) ?
 const featuredYoutube = beiva.youtube.find((y) => y.id === beiva.featured.youtubeId) ?? beiva.youtube[0];
 const featuredClip = beiva.clips?.[0];
 
-
-// Highlight metinleri
 const highlights = [
   "Merhaba, benim adım Ömer Sait Coşkun. Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği Bölümü mezunuyum. Yazılım tarafında kendimi sürekli geliştirmeyi, yeni teknolojileri deneyerek öğrenmeyi ve öğrendiklerimi gerçek projelere dönüştürmeyi seviyorum. Özellikle problem çözme, sistematik düşünme ve bir fikri adım adım çalışır bir ürüne dönüştürme süreci beni motive ediyor. Bu süreçte yalnızca “çalışan” değil, aynı zamanda anlaşılır, sürdürülebilir ve ölçeklenebilir çözümler üretmeye özen gösteriyorum.",
   "Bunun yanında BEIVA adını verdiğim kapsamlı bir bilimkurgu evreni üzerinde çalışıyorum. Bu proje; yazarlık, dünya inşası, görsel/işitsel üretim ve içerik geliştirme gibi birçok alanı bir araya getiriyor. BEIVA sayesinde hikâye anlatımını kurgusal tutarlılıkla birleştirirken, disiplinli üretim alışkanlığı da kazanıyorum: fikirleri planlamak, parçalamak, düzenlemek ve sürekli iyileştirmek. Hem analitik düşünmeyi hem de yaratıcı üretimi aynı potada buluşturan bu yaklaşım, projelerime de doğrudan yansıyor.",
@@ -156,17 +151,16 @@ const highlights = [
 
     .introGrid{
       display: grid;
-      grid-template-columns: 1fr 340px; /* sağ kolon sabit: fotoğraf kartı */
+      grid-template-columns: 1fr 340px;
       gap: 18px;
       align-items: start;
       margin-top: 10px;
     }
 
     .photo{
-      justify-self: end; /* sağa yasla */
+      justify-self: end;
     }
 
-    /* Dar ekranda alt alta düşsün */
     @media (max-width: 980px){
       .introGrid{ grid-template-columns: 1fr; }
       .photo{ justify-self: start; }
@@ -187,21 +181,20 @@ const highlights = [
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 14px;
-  row-gap: 42px;              /* ✅ satırlar kesin ayrılır */
+  row-gap: 42px;   
   margin-top: 10px;
 
   align-items: start;
-  isolation: isolate;         /* ✅ z-index/stacking çakışmalarını keser */
+  isolation: isolate;         
   position: relative;
   z-index: 0;
 }
 
-/* Grid item'ların grid akışından çıkmasını engelle */
 .beivaGrid > *{
   position: relative;
   z-index: 0;
-  transform: none !important;  /* ✅ eğer bir yerde transform kalmışsa öldürür */
-  margin-top: 0 !important;    /* ✅ negatif margin ihtimalini öldürür */
+  transform: none !important; 
+  margin-top: 0 !important;    
 }
 
 @media (max-width: 900px){

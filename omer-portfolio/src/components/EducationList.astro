@@ -1,0 +1,64 @@
+---
+import type { Lang } from "../i18n/utils";
+import { education, languages, formatMonthRange } from "../data/cv";
+
+const { lang } = Astro.props as { lang: Lang };
+
+const copy = {
+  tr: { gpa: "Not ortalaması:", languages: "Diller" },
+  en: { gpa: "GPA:", languages: "Languages" },
+}[lang];
+---
+
+<section class="eduWrap">
+  {education.map((ed) => (
+    <article class="eduCard">
+      <h3>{ed.school[lang]}</h3>
+      <p class="eduMeta">
+        {ed.program[lang]} • {formatMonthRange(ed, lang)} • {ed.location[lang]}
+      </p>
+      <ul>
+        {ed.note && <li>{ed.note[lang]}</li>}
+        {ed.gpa && <li>{copy.gpa} {ed.gpa}</li>}
+      </ul>
+    </article>
+  ))}
+
+  <article class="eduCard">
+    <h3>{copy.languages}</h3>
+    <ul>
+      {languages.map((l) => (
+        <li><strong>{l.name[lang]}</strong> — {l.level[lang]}</li>
+      ))}
+    </ul>
+  </article>
+</section>
+
+<style>
+  .eduWrap{
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .eduCard{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.04);
+  }
+  .eduCard h3{
+    margin: 0 0 6px;
+    font-size: 16px;
+  }
+  .eduMeta{
+    margin: 0 0 10px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .eduCard ul{
+    margin: 0;
+    padding-left: 18px;
+  }
+  .eduCard li{ margin: 6px 0; opacity: 0.92; }
+</style>

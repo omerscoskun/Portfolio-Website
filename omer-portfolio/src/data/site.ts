@@ -1,8 +1,6 @@
-import { number } from "astro:schema";
-
 export type SocialLink = {
   id: string;
-  label: string; // ekranda görünen
+  label: string;
   url: string;
 };
 

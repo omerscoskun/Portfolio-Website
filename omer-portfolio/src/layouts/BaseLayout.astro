@@ -7,19 +7,14 @@ import { ClientRouter } from "astro:transitions";
 
 const { title = site.name, description, lang="en", ogImage, page="home" } = Astro.props;
 
-
-// Dil bazlı default description seç
 const fallbackDesc = lang === "tr" ? site.defaultDescription.tr : site.defaultDescription.en;
 const desc = description ?? fallbackDesc;
 
-// Canonical URL üret
 const canonical = new URL(Astro.url.pathname, site.url).toString();
 
-// OG image mutlak URL (site.url + /og.png)
 const og = new URL(ogImage ?? site.socialImage, site.url).toString();
 
-// Twitter kullanıcı adı varsa eklemek için hazır alan (opsiyonel)
-const twitterSite = ""; // örn: "@beiva_universe"
+const twitterSite = "";
 ---
 
 <html lang={lang} data-page={page}>
@@ -31,10 +26,8 @@ const twitterSite = ""; // örn: "@beiva_universe"
     <meta name="description" content={desc} />
     <link rel="canonical" href={canonical} />
 
-    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
@@ -42,7 +35,6 @@ const twitterSite = ""; // örn: "@beiva_universe"
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={og} />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     {twitterSite ? <meta name="twitter:site" content={twitterSite} /> : null}
     <meta name="twitter:title" content={title} />

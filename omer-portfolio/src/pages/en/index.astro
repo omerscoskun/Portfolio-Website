@@ -18,7 +18,6 @@ const featuredMusic = beiva.music.find((m) => m.id === beiva.featured.musicId) ?
 const featuredYoutube = beiva.youtube.find((y) => y.id === beiva.featured.youtubeId) ?? beiva.youtube[0];
 const featuredClip = beiva.clips?.[0];
 
-// Highlight texts
 const highlights = [
   "Hello, my name is Ömer Sait Coşkun. I am a Computer Engineer from Süleyman Demirel University. I enjoy continuously improving myself in software development, learning by exploring new technologies, and turning what I learn into real projects. I am especially motivated by problem-solving, systematic thinking, and transforming an idea step by step into a working product. In this process, I focus on building solutions that are not only functional, but also clear, maintainable, and scalable.",
   "In addition, I am working on a comprehensive science fiction universe called BEIVA. This project brings together multiple disciplines such as writing, world-building, visual/audio production, and content development. Through BEIVA, I combine storytelling with narrative consistency while also building a disciplined creation habit: planning ideas, breaking them down, organizing them, and continuously improving them. This approach blending analytical thinking with creative production directly reflects in my projects as well.",
@@ -149,17 +148,16 @@ const highlights = [
 
     .introGrid{
       display: grid;
-      grid-template-columns: 1fr 340px; /* sağ kolon sabit: fotoğraf kartı */
+      grid-template-columns: 1fr 340px; 
       gap: 18px;
       align-items: start;
       margin-top: 10px;
     }
 
     .photo{
-      justify-self: end; /* sağa yasla */
+      justify-self: end; 
     }
 
-    /* Dar ekranda alt alta düşsün */
     @media (max-width: 980px){
       .introGrid{ grid-template-columns: 1fr; }
       .photo{ justify-self: start; }
@@ -180,21 +178,20 @@ const highlights = [
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 14px;
-  row-gap: 42px;              /* ✅ satırlar kesin ayrılır */
+  row-gap: 42px;              
   margin-top: 10px;
 
   align-items: start;
-  isolation: isolate;         /* ✅ z-index/stacking çakışmalarını keser */
+  isolation: isolate;        
   position: relative;
   z-index: 0;
 }
 
-/* Grid item'ların grid akışından çıkmasını engelle */
 .beivaGrid > *{
   position: relative;
   z-index: 0;
-  transform: none !important;  /* ✅ eğer bir yerde transform kalmışsa öldürür */
-  margin-top: 0 !important;    /* ✅ negatif margin ihtimalini öldürür */
+  transform: none !important; 
+  margin-top: 0 !important;  
 }
 
 @media (max-width: 900px){

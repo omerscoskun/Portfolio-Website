@@ -5,7 +5,7 @@ export type Book = {
   title: Localized;
   logline: Localized;
   status?: Localized;
-  cover?: { src: string; alt: Localized }; // ✅ yeni
+  cover?: { src: string; alt: Localized };
   links?: {
     page?: string;
     buy?: string;
@@ -16,7 +16,7 @@ export type Book = {
 export type MediaLink = {
   id: string;
   title: Localized;
-  note?: Localized; // kısa açıklama
+  note?: Localized;
   links: {
     youtube?: string;
     spotify?: string;
@@ -24,14 +24,14 @@ export type MediaLink = {
     instagram?: string;
     other?: string;
   };
-  tags?: string[]; // örn: ["OST", "Lyric Video", "Review"]
+  tags?: string[];
 };
 
 export type BeivaImage = {
   id: string;
   title: Localized;
   note?: Localized;
-  src: string; // /beiva/art/xxx.jpg (public altından)
+  src: string;
   alt: Localized;
 };
 
@@ -39,13 +39,12 @@ export type BeivaClip = {
   id: string;
   title: Localized;
   note?: Localized;
-  src: string; // /beiva/clips/xxx.mp4
-  poster?: string; // /beiva/clips/xxx.jpg (opsiyonel)
+  src: string;
+  poster?: string;
 };
 
 export const beiva = {
   featured: {
-    // Home'da göstereceğimiz seçimler
     bookId: "beiva-1",
     musicId: "music-1",
     youtubeId: "yt-1",
@@ -122,7 +121,6 @@ export const beiva = {
         en: "A short animation that moves the main character's eyes.",
       },
       src: "/beiva/clips/clip-1.mp4",
-      //poster: "/beiva/clips/clip-1.jpg", // opsiyonel ama önerilir
     },
     {
       id: "clip-2",
@@ -135,7 +133,6 @@ export const beiva = {
         en: "A short animation simulating the main character's heartbeat.",
       },
       src: "/beiva/clips/clip-2.mp4",
-      //poster: "/beiva/clips/clip-2.jpg",
     },
   ] satisfies BeivaClip[],
 
@@ -147,7 +144,7 @@ export const beiva = {
         tr: "BEIVA atmosferine uygun bir müzik videosu. Duygusal bir parça.",
         en: "A music video aligned with the BEIVA atmosphere. An emotional track.",
       },
-      links: { youtube: "https://youtu.be/QIxSesXIl-w" }, // TODO: YouTube linki
+      links: { youtube: "https://youtu.be/QIxSesXIl-w" },
       tags: ["Music Video", "OST"],
     },
     {
@@ -157,7 +154,7 @@ export const beiva = {
         tr: "BEIVA atmosferine uygun ikinci bir müzik videosu. Karamsar bir parça.",
         en: "A second music video aligned with the BEIVA atmosphere. A gloomy track.",
       },
-      links: { youtube: "https://youtu.be/d-Nu6pfHSkY" }, // TODO: YouTube linki
+      links: { youtube: "https://youtu.be/d-Nu6pfHSkY" },
       tags: ["Music Video", "OST"],
     },
   ] satisfies MediaLink[],
@@ -173,7 +170,7 @@ export const beiva = {
         tr: "İnceleme videolarımızdan birine ait bir video.",
         en: "A video from one of our review videos.",
       },
-      links: { youtube: "https://youtu.be/Pd8kCyVj2ac" }, // TODO: YouTube linki
+      links: { youtube: "https://youtu.be/Pd8kCyVj2ac" },
       tags: ["YouTube"],
     },
     {
@@ -186,7 +183,7 @@ export const beiva = {
         tr: "Çizim timelapse videosu",
         en: "Drawing timelapse video",
       },
-      links: { youtube: "https://youtu.be/0HziSWjQ06A" }, // TODO: YouTube linki
+      links: { youtube: "https://youtu.be/0HziSWjQ06A" },
       tags: ["YouTube"],
     },
   ] satisfies MediaLink[],

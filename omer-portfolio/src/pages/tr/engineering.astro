@@ -4,6 +4,7 @@ import { t } from "../../i18n/utils";
 import ProjectCard from "../../components/ProjectCard.astro";
 import SkillsGrid from "../../components/SkillsGrid.astro";
 import ExperienceList from "../../components/ExperienceList.astro";
+import EducationList from "../../components/EducationList.astro";
 import { projects } from "../../data/projects";
 
 const copy = t("tr");
@@ -23,6 +24,9 @@ const featured = projects.filter((p) => p.featured);
 
 <h2>İş Deneyimi</h2>
 <ExperienceList lang="tr" />
+
+<h2>Eğitim</h2>
+<EducationList lang="tr" />
 
 <h2>Öne Çıkan Projeler</h2>
 {featured.length ? (

@@ -13,26 +13,21 @@ const note = item.note?.[lang];
 
 const youtubeUrl = item.links.youtube;
 
-// YouTube URL'den video id çıkar (watch?v=, youtu.be/, shorts/)
 const getYouTubeId = (url?: string) => {
   if (!url) return null;
   try {
     const u = new URL(url);
 
-    // youtu.be/<id>
     if (u.hostname.includes("youtu.be")) {
       return u.pathname.replace("/", "") || null;
     }
 
-    // youtube.com/watch?v=<id>
     const v = u.searchParams.get("v");
     if (v) return v;
 
-    // youtube.com/shorts/<id>
     const m = u.pathname.match(/\/shorts\/([A-Za-z0-9_-]{6,})/);
     if (m?.[1]) return m[1];
 
-    // youtube.com/embed/<id>
     const e = u.pathname.match(/\/embed\/([A-Za-z0-9_-]{6,})/);
     if (e?.[1]) return e[1];
 
@@ -44,12 +39,10 @@ const getYouTubeId = (url?: string) => {
 
 const ytId = getYouTubeId(youtubeUrl);
 
-// Embed URL (mute + autoplay + loop)
 const ytEmbed = ytId
   ? `https://www.youtube.com/embed/${ytId}?autoplay=1&mute=1&loop=1&playlist=${ytId}&playsinline=1&modestbranding=1&rel=0`
   : null;
 
-// Link entries (youtube hariç kalanları al; youtube varsa zaten embed var)
 const linkEntries = Object.entries(item.links)
   .filter(([k, v]) => typeof v === "string" && v.length > 0 && k !== "youtube") as [string, string][];
 ---
@@ -107,7 +100,6 @@ const linkEntries = Object.entries(item.links)
     border-color: rgba(255,255,255,0.2);
   }
 
-    /* Compact görünüm: Klip kartları gibi */
   .card.compact{
     padding: 14px;
   }
@@ -121,8 +113,6 @@ const linkEntries = Object.entries(item.links)
     font-size: 13px;
     opacity: 0.9;
   }
-
-  /* İframe zaten responsive; sadece genel ritmi küçültüyoruz */
 
   .top {
     display: flex;
@@ -141,7 +131,6 @@ const linkEntries = Object.entries(item.links)
     background: rgba(0,0,0,0.25);
   }
 
-  /* Responsive iframe (16:9) */
   .player iframe{
     width: 100%;
     aspect-ratio: 16 / 9;

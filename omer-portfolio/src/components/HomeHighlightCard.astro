@@ -34,7 +34,6 @@ const {
   poster,
 } = Astro.props as Props;
 
-// YouTube ID çıkar
 const getYouTubeId = (url?: string) => {
   if (!url) return null;
   try {
@@ -140,16 +139,14 @@ const ytEmbed = ytId
     white-space: nowrap;
   }
 
-  /* ⭐ BÜTÜN KARTLARIN MEDYA ALANI AYNI YÜKSEKLİKTE */
   .media{
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.12);
     background: rgba(0,0,0,0.25);
-    height: 180px;              /* sabit: yamukluğu bitirir */
+    height: 180px;              
   }
 
-  /* img / iframe / video sabit yükseklikte cover */
   .media :global(img),
   .media :global(iframe),
   .media :global(video){
@@ -160,7 +157,6 @@ const ytEmbed = ytId
     object-fit: cover;
   }
 
-  /* Kitap kapağı için biraz "poster" hissi */
   .media :global(img){
     object-position: center;
   }
@@ -170,11 +166,10 @@ const ytEmbed = ytId
   opacity: 0.9;
   font-size: 13px;
 
-  /* ✅ sadece burada metni kısalt */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  -webkit-line-clamp: 2;  /* 4 satır göster */
+  -webkit-line-clamp: 2; 
   line-clamp:2;
 }
 

@@ -1,0 +1,471 @@
+---
+import type { Lang } from "../i18n/utils";
+
+const { lang } = Astro.props as { lang: Lang };
+
+const copy = {
+  tr: {
+    button: "CV / Resume",
+    open: "CV talep et",
+    formTitle: "CV Talebi",
+    formIntro:
+      "Bilgileri paylaşırsan kimin ilgilendiğini bilirim. Hepsi isteğe bağlı — doldurmadan da indirebilirsin.",
+    name: "Ad Soyad",
+    email: "E-posta",
+    company: "Şirket / Kurum",
+    reason: "Talep sebebi",
+    reasons: ["İş teklifi", "Staj", "Freelance", "Akademik", "Diğer"],
+    cvLang: "CV dili",
+    format: "Dosya türü",
+    create: "CV Oluştur",
+    skip: "Atla ve oluştur",
+    close: "Kapat",
+    progressTitle: "CV hazırlanıyor",
+    steps: [
+      "Profil bilgileri okunuyor",
+      "İş deneyimi derleniyor",
+      "Projeler ekleniyor",
+      "Belge biçimlendiriliyor",
+      "Dosya paketleniyor",
+    ],
+    readyTitle: "CV hazır",
+    readyBody: "Belgen oluşturuldu. İndirmek için aşağıdaki butona bas.",
+    download: "İndir",
+    again: "Başka bir CV oluştur",
+    errorTitle: "Bir şeyler ters gitti",
+    retry: "Tekrar dene",
+  },
+  en: {
+    button: "CV / Resume",
+    open: "Request CV",
+    formTitle: "CV Request",
+    formIntro:
+      "Share your details so I know who's interested. All fields are optional — you can download without filling them in.",
+    name: "Full name",
+    email: "Email",
+    company: "Company / Organization",
+    reason: "Reason for request",
+    reasons: ["Job offer", "Internship", "Freelance", "Academic", "Other"],
+    cvLang: "CV language",
+    format: "File type",
+    create: "Generate CV",
+    skip: "Skip and generate",
+    close: "Close",
+    progressTitle: "Preparing your CV",
+    steps: [
+      "Reading profile details",
+      "Compiling work experience",
+      "Adding projects",
+      "Formatting document",
+      "Packaging file",
+    ],
+    readyTitle: "Your CV is ready",
+    readyBody: "The document has been generated. Use the button below to download it.",
+    download: "Download",
+    again: "Generate another CV",
+    errorTitle: "Something went wrong",
+    retry: "Try again",
+  },
+}[lang];
+---
+
+<button class="cvBtn" data-cv-open aria-haspopup="dialog">{copy.button}</button>
+
+<dialog
+  class="cvDialog"
+  data-cv-dialog
+  data-steps={JSON.stringify(copy.steps)}
+  aria-label={copy.formTitle}
+>
+  <div class="panel">
+    <button class="closeBtn" data-cv-close aria-label={copy.close}>&times;</button>
+
+    <form class="step" data-step="form" method="dialog">
+      <h2>{copy.formTitle}</h2>
+      <p class="intro">{copy.formIntro}</p>
+
+      <div class="grid">
+        <label>
+          <span>{copy.name}</span>
+          <input type="text" name="name" autocomplete="name" />
+        </label>
+        <label>
+          <span>{copy.email}</span>
+          <input type="email" name="email" autocomplete="email" />
+        </label>
+        <label>
+          <span>{copy.company}</span>
+          <input type="text" name="company" autocomplete="organization" />
+        </label>
+        <label>
+          <span>{copy.reason}</span>
+          <select name="reason">
+            <option value="">—</option>
+            {copy.reasons.map((r) => <option value={r}>{r}</option>)}
+          </select>
+        </label>
+      </div>
+
+      <fieldset class="choices">
+        <legend>{copy.cvLang}</legend>
+        <label class="chip">
+          <input type="radio" name="cvLang" value="tr" checked={lang === "tr"} />
+          <span>Türkçe</span>
+        </label>
+        <label class="chip">
+          <input type="radio" name="cvLang" value="en" checked={lang === "en"} />
+          <span>English</span>
+        </label>
+      </fieldset>
+
+      <fieldset class="choices">
+        <legend>{copy.format}</legend>
+        <label class="chip">
+          <input type="radio" name="format" value="pdf" checked />
+          <span>PDF</span>
+        </label>
+        <label class="chip">
+          <input type="radio" name="format" value="docx" />
+          <span>Word (.docx)</span>
+        </label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn primary" data-cv-generate>{copy.create}</button>
+        <button type="button" class="btn ghost" data-cv-skip>{copy.skip}</button>
+      </div>
+    </form>
+
+    <div class="step" data-step="progress" hidden>
+      <h2>{copy.progressTitle}</h2>
+      <div class="bar"><div class="fill" data-cv-fill></div></div>
+      <p class="stepLabel" data-cv-steplabel aria-live="polite"></p>
+    </div>
+
+    <div class="step" data-step="ready" hidden>
+      <div class="tick" aria-hidden="true">✓</div>
+      <h2>{copy.readyTitle}</h2>
+      <p class="intro">{copy.readyBody}</p>
+      <p class="fileName" data-cv-filename></p>
+      <div class="actions">
+        <button type="button" class="btn primary" data-cv-download>{copy.download}</button>
+        <button type="button" class="btn ghost" data-cv-again>{copy.again}</button>
+      </div>
+    </div>
+
+    <div class="step" data-step="error" hidden>
+      <h2>{copy.errorTitle}</h2>
+      <p class="intro" data-cv-errormsg></p>
+      <div class="actions">
+        <button type="button" class="btn ghost" data-cv-again>{copy.retry}</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  import { buildCvModel, type Requester } from "../lib/cv-model";
+  import type { Lang } from "../i18n/utils";
+
+  const WEB3FORMS_KEY = "b5677d64-da56-4dad-af5b-108a9f14d9b7";
+
+  const STEP_MS = 420;
+
+  function initCvDownload() {
+    const dialog = document.querySelector<HTMLDialogElement>("[data-cv-dialog]");
+    const openBtn = document.querySelector<HTMLButtonElement>("[data-cv-open]");
+    if (!dialog || !openBtn || dialog.dataset.bound === "1") return;
+    dialog.dataset.bound = "1";
+
+    const form = dialog.querySelector<HTMLFormElement>('[data-step="form"]')!;
+    const fill = dialog.querySelector<HTMLElement>("[data-cv-fill]")!;
+    const stepLabel = dialog.querySelector<HTMLElement>("[data-cv-steplabel]")!;
+    const fileNameEl = dialog.querySelector<HTMLElement>("[data-cv-filename]")!;
+    const errorMsg = dialog.querySelector<HTMLElement>("[data-cv-errormsg]")!;
+    const steps = JSON.parse(dialog.dataset.steps || "[]") as string[];
+
+    let blob: Blob | null = null;
+    let fileName = "";
+
+    const show = (name: string) => {
+      dialog.querySelectorAll<HTMLElement>("[data-step]").forEach((el) => {
+        el.hidden = el.dataset.step !== name;
+      });
+    };
+
+    openBtn.addEventListener("click", () => {
+      show("form");
+      dialog.showModal();
+    });
+
+    dialog.querySelector("[data-cv-close]")?.addEventListener("click", () => dialog.close());
+
+    dialog.querySelectorAll("[data-cv-again]").forEach((btn) =>
+      btn.addEventListener("click", () => show("form"))
+    );
+
+    dialog.querySelector("[data-cv-skip]")?.addEventListener("click", () => void run());
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      void run();
+    });
+
+    dialog.querySelector("[data-cv-download]")?.addEventListener("click", () => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    dialog.addEventListener("close", () => {
+      blob = null;
+      fill.style.width = "0%";
+    });
+
+    async function run() {
+      const data = new FormData(form);
+      const requester: Requester = {
+        name: String(data.get("name") || "").trim() || undefined,
+        email: String(data.get("email") || "").trim() || undefined,
+        company: String(data.get("company") || "").trim() || undefined,
+        reason: String(data.get("reason") || "").trim() || undefined,
+      };
+      const cvLang = (String(data.get("cvLang") || "en") as Lang);
+      const format = String(data.get("format") || "pdf");
+
+      show("progress");
+      fill.style.width = "0%";
+
+      if (requester.name || requester.email || requester.company) {
+        void notify(requester, cvLang, format);
+      }
+
+      const generating = generate(cvLang, format, requester);
+      const animating = animate();
+
+      try {
+        const [built] = await Promise.all([generating, animating]);
+        blob = built.blob;
+        fileName = built.fileName;
+        fileNameEl.textContent = fileName;
+        show("ready");
+      } catch (err) {
+        console.error("CV oluşturulamadı:", err);
+        errorMsg.textContent = err instanceof Error ? err.message : String(err);
+        show("error");
+      }
+    }
+
+    async function animate() {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      for (let i = 0; i < steps.length; i++) {
+        stepLabel.textContent = steps[i];
+        fill.style.width = `${Math.round(((i + 1) / steps.length) * 100)}%`;
+        if (!reduce) await new Promise((r) => setTimeout(r, STEP_MS));
+      }
+    }
+
+    async function generate(cvLang: Lang, format: string, requester: Requester) {
+      const model = buildCvModel(cvLang, requester);
+      if (format === "docx") {
+        const { buildCvDocx } = await import("../lib/cv-docx");
+        return { blob: await buildCvDocx(model), fileName: `${model.fileBaseName}.docx` };
+      }
+      const { buildCvPdf } = await import("../lib/cv-pdf");
+      return { blob: await buildCvPdf(model), fileName: `${model.fileBaseName}.pdf` };
+    }
+
+    async function notify(requester: Requester, cvLang: string, format: string) {
+      try {
+        await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: `CV talebi — ${requester.company || requester.name || "isimsiz"}`,
+            from_name: "Portfolio CV Request",
+            name: requester.name || "-",
+            email: requester.email || "-",
+            company: requester.company || "-",
+            reason: requester.reason || "-",
+            cv_language: cvLang,
+            file_format: format,
+          }),
+        });
+      } catch (err) {
+        console.warn("Talep bildirimi gönderilemedi:", err);
+      }
+    }
+  }
+
+  document.addEventListener("astro:page-load", initCvDownload);
+</script>
+
+<style>
+  .cvBtn {
+    padding: 8px 10px;
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .cvBtn:hover { opacity: 0.8; }
+
+  .cvDialog {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: 560px;
+    width: calc(100% - 32px);
+    color: var(--text);
+  }
+  .cvDialog::backdrop {
+    background: rgba(5, 6, 10, 0.72);
+    backdrop-filter: blur(4px);
+  }
+
+  .panel {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #12141b;
+    box-shadow: var(--shadow);
+    padding: 22px;
+  }
+
+  .closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .closeBtn:hover { color: var(--text); }
+
+  h2 { margin: 0 0 6px; font-size: 20px; }
+  .intro { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  label { display: flex; flex-direction: column; gap: 4px; }
+  label > span { font-size: 12px; color: var(--muted); }
+
+  input[type="text"], input[type="email"], select {
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+  }
+  input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  .choices {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    padding: 0;
+    margin: 14px 0 0;
+  }
+
+  select option {
+    background-color: #12141b;
+    color: var(--text);
+  }
+
+  .choices legend { float: left; font-size: 12px; color: var(--muted); margin-right: 10px; }
+
+  .chip {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--panel);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .chip:has(input:checked) {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+  .btn {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  }
+  .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.28); }
+  .btn.primary {
+    background: linear-gradient(135deg, rgba(124,92,255,0.9), rgba(56,189,248,0.55));
+    border-color: rgba(255,255,255,0.18);
+  }
+  .btn.ghost { opacity: 0.85; }
+
+  .bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin: 16px 0 10px;
+  }
+  .fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width var(--dur) var(--ease);
+  }
+  .stepLabel { margin: 0; font-size: 13px; color: var(--muted); min-height: 20px; }
+
+  .tick {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #0b0d12;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    margin-bottom: 10px;
+  }
+  .fileName {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
