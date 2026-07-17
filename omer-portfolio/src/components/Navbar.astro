@@ -56,7 +56,8 @@ const isActive = (href: string) => normalize(href) === current;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 14px;
+    flex-wrap: wrap;
+    gap: 12px;
     margin-bottom: 18px;
   }
 
@@ -66,8 +67,12 @@ const isActive = (href: string) => normalize(href) === current;
     letter-spacing: 0.2px;
   }
 
+  /* Boş bırakıldığında space-between hizasını bozmasın */
+  .brand:empty { display: none; }
+
   .nav {
     display: flex;
+    align-items: center;
     gap: 14px;
     flex-wrap: wrap;
   }
@@ -88,4 +93,19 @@ const isActive = (href: string) => normalize(href) === current;
 
 
   .right { display: flex; align-items: center; gap: 8px; }
+
+  /* Mobilde 3 link + 2 buton tek satıra sığmıyor:
+     butonlar sağ üstte kendi satırında, linkler altında tek sıra halinde. */
+  @media (max-width: 600px) {
+    .right {
+      order: 1;
+      flex: 1 1 100%;
+      justify-content: flex-end;
+    }
+    .nav {
+      order: 2;
+      flex: 1 1 100%;
+      gap: 18px;
+    }
+  }
 </style>
