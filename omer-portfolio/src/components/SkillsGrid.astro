@@ -1,0 +1,50 @@
+---
+import type { Lang } from "../i18n/utils";
+import { skillGroups } from "../data/cv";
+
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<section class="skills">
+  {skillGroups.map((group) => (
+    <div class="block">
+      <h3>{group.title[lang]}</h3>
+      <ul>
+        {group.items.map((item) => (
+          <li>
+            <strong>{item.names.join(", ")}</strong>
+            {item.note && ` (${item.note[lang]})`}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</section>
+
+<style>
+  .skills{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .block{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 14px;
+    background: rgba(255,255,255,0.04);
+  }
+  .block h3{
+    margin: 0 0 8px;
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  .block ul{
+    margin: 0;
+    padding-left: 18px;
+  }
+  .block li{ margin: 6px 0; opacity: 0.92; }
+  @media (max-width: 900px){
+    .skills{ grid-template-columns: 1fr; }
+  }
+</style>

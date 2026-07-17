@@ -2,6 +2,8 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { t } from "../../i18n/utils";
 import ProjectCard from "../../components/ProjectCard.astro";
+import SkillsGrid from "../../components/SkillsGrid.astro";
+import ExperienceList from "../../components/ExperienceList.astro";
 import { projects } from "../../data/projects";
 
 const copy = t("tr");
@@ -17,166 +19,10 @@ const featured = projects.filter((p) => p.featured);
   </p>
 
 <h2>Yetenekler</h2>
-
-<section class="skills">
-  <div class="block">
-    <h3>Diller</h3>
-    <ul>
-      <li><strong>C#</strong> (backend / uygulamalar)</li>
-      <li><strong>TypeScript / JavaScript</strong></li>
-      <li><strong>Python</strong> (ML / veri işleme)</li>
-      <li><strong>Kotlin</strong> (Android)</li>
-      <li><strong>SQL</strong></li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Framework & Platform</h3>
-    <ul>
-      <li><strong>.NET / ASP.NET Core</strong> (REST API, katmanlı mimari)</li>
-      <li><strong>Entity Framework Core</strong>, <strong>Dapper</strong></li>
-      <li><strong>React</strong>, <strong>Angular</strong>, <strong>Astro</strong></li>
-      <li><strong>React Native & Expo</strong> (mobil)</li>
-      <li><strong>Node.js</strong></li>
-      <li><strong>Android (Jetpack Compose)</strong></li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Araçlar & DevOps</h3>
-    <ul>
-      <li><strong>Git & GitHub</strong></li>
-      <li><strong>Docker</strong></li>
-      <li><strong>Jenkins & CI/CD</strong></li>
-      <li><strong>Swagger</strong>, <strong>Postman</strong></li>
-      <li><strong>VS Code</strong></li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Mimari & Pratikler</h3>
-    <ul>
-      <li><strong>RESTful API</strong>, JSON</li>
-      <li><strong>Temiz & Katmanlı Mimari</strong> (Domain / Application / Infrastructure)</li>
-      <li><strong>OOP</strong>, <strong>SOLID</strong>, <strong>DRY</strong>, <strong>KISS</strong></li>
-      <li><strong>Responsive tasarım</strong>, dokümantasyon, sürdürülebilir kod</li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Veri & Mesajlaşma</h3>
-    <ul>
-      <li><strong>PostgreSQL / PostGIS</strong>, <strong>MySQL</strong>, <strong>MongoDB</strong></li>
-      <li><strong>Redis</strong> (önbellekleme)</li>
-      <li><strong>RabbitMQ</strong>, <strong>Kafka</strong></li>
-      <li><strong>ORM + SQL</strong> birlikte kullanımı (EF Core / Dapper)</li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>AI / Makine Öğrenmesi</h3>
-    <ul>
-      <li><strong>Scikit-learn</strong>, <strong>XGBoost</strong>, <strong>LightGBM</strong></li>
-      <li><strong>GeoPandas</strong>, <strong>Shapely</strong>, <strong>QGIS</strong> (coğrafi veri işleme)</li>
-      <li><strong>Python</strong> ile veri işleme / analiz</li>
-    </ul>
-  </div>
-</section>
-
-<style>
-  .skills{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 10px;
-  }
-  .block{
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 14px;
-    background: rgba(255,255,255,0.04);
-  }
-  .block h3{
-    margin: 0 0 8px;
-    font-size: 14px;
-    opacity: 0.9;
-  }
-  .block ul{
-    margin: 0;
-    padding-left: 18px;
-  }
-  .block li{ margin: 6px 0; opacity: 0.92; }
-  .internships{
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .internshipCard{
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 16px;
-    background: rgba(255,255,255,0.04);
-  }
-  .internshipHeader h3{
-    margin: 0 0 6px;
-    font-size: 16px;
-  }
-  .internshipMeta{
-    margin: 0 0 10px;
-    font-size: 13px;
-    opacity: 0.85;
-  }
-  .internshipCard ul{
-    margin: 0 0 10px;
-    padding-left: 18px;
-  }
-  .internshipCard li{
-    margin: 6px 0;
-    opacity: 0.92;
-  }
-  .internshipStack{
-    margin: 0 0 8px;
-    font-size: 13px;
-    opacity: 0.9;
-  }
-  .internshipLink{
-    font-size: 13px;
-  }
-  @media (max-width: 900px){
-    .skills{ grid-template-columns: 1fr; }
-  }
-</style>
+<SkillsGrid lang="tr" />
 
 <h2>İş Deneyimi</h2>
-<section class="internships">
-  <article class="internshipCard">
-    <div class="internshipHeader">
-      <h3>Maden ve Petrol İşleri Genel Müdürlüğü (MAPEG)</h3>
-      <p class="internshipMeta">Stajyer / Bilgi İşlem Departmanı • 13 Temmuz 2026 – Devam ediyor • Ankara / Çankaya</p>
-    </div>
-    <ul>
-      <li>Sorumluluklar ve görevler</li>
-      <li>...</li>
-    </ul>
-    <p class="internshipStack"><strong>Teknolojiler:</strong>...</p>
-    <a class="internshipLink" href="https://www.mapeg.gov.tr/" target="_blank" rel="noreferrer">Kurum web sitesi</a>
-  </article>
-  <article class="internshipCard">
-    <div class="internshipHeader">
-      <h3>Kuzey Marmara Otoyolu İşletme A.Ş.</h3>
-      <p class="internshipMeta">Stajyer / IT Departmanı • 4 Ağustos 2025 – 29 Ağustos 2025 • İstanbul / Sarıyer</p>
-    </div>
-    <ul>
-      <li>SOLID yapısını öğrenme ve uygulama.</li>
-      <li>Şirket içi işlenişi öğrenme.</li>
-      <li>Backend temelleri üzerine çalışmalar.</li>
-      <li>İstenilen projeyi geliştirme: 4kEditorUygulaması / EditorDesk.</li>
-    </ul>
-    <p class="internshipStack"><strong>Teknolojiler:</strong> .NET Core, ASP.NET, C#, Docker, PostgreSQL, Postman</p>
-    <a class="internshipLink" href="https://www.kuzeymarmaraotoyolu.com/" target="_blank" rel="noreferrer">Kurum web sitesi</a>
-  </article>
-</section>
+<ExperienceList lang="tr" />
 
 <h2>Öne Çıkan Projeler</h2>
 {featured.length ? (

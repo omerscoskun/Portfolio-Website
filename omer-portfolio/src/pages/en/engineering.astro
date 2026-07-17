@@ -2,6 +2,8 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { t } from "../../i18n/utils";
 import ProjectCard from "../../components/ProjectCard.astro";
+import SkillsGrid from "../../components/SkillsGrid.astro";
+import ExperienceList from "../../components/ExperienceList.astro";
 import { projects } from "../../data/projects";
 
 const copy = t("en");
@@ -17,166 +19,10 @@ const featured = projects.filter((p) => p.featured);
   </p>
 
 <h2>Skills</h2>
-
-<section class="skills">
-  <div class="block">
-    <h3>Languages</h3>
-    <ul>
-      <li><strong>C#</strong> (backend / apps)</li>
-      <li><strong>TypeScript / JavaScript</strong></li>
-      <li><strong>Python</strong> (ML / data processing)</li>
-      <li><strong>Kotlin</strong> (Android)</li>
-      <li><strong>SQL</strong></li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Frameworks & Platforms</h3>
-    <ul>
-      <li><strong>.NET / ASP.NET Core</strong> (REST API, layered architecture)</li>
-      <li><strong>Entity Framework Core</strong>, <strong>Dapper</strong></li>
-      <li><strong>React</strong>, <strong>Angular</strong>, <strong>Astro</strong></li>
-      <li><strong>React Native & Expo</strong> (mobile)</li>
-      <li><strong>Node.js</strong></li>
-      <li><strong>Android (Jetpack Compose)</strong></li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Tools & DevOps</h3>
-    <ul>
-      <li><strong>Git & GitHub</strong></li>
-      <li><strong>Docker</strong></li>
-      <li><strong>Jenkins & CI/CD</strong></li>
-      <li><strong>Swagger</strong>, <strong>Postman</strong></li>
-      <li><strong>VS Code</strong></li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Architecture & Practices</h3>
-    <ul>
-      <li><strong>RESTful APIs</strong>, JSON</li>
-      <li><strong>Clean & Layered Architecture</strong> (Domain / Application / Infrastructure)</li>
-      <li><strong>OOP</strong>, <strong>SOLID</strong>, <strong>DRY</strong>, <strong>KISS</strong></li>
-      <li><strong>Responsive design</strong>, documentation, sustainable code</li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>Data & Messaging</h3>
-    <ul>
-      <li><strong>PostgreSQL / PostGIS</strong>, <strong>MySQL</strong>, <strong>MongoDB</strong></li>
-      <li><strong>Redis</strong> (caching)</li>
-      <li><strong>RabbitMQ</strong>, <strong>Kafka</strong></li>
-      <li><strong>ORM + SQL</strong> usage (EF Core / Dapper)</li>
-    </ul>
-  </div>
-
-  <div class="block">
-    <h3>AI / Machine Learning</h3>
-    <ul>
-      <li><strong>Scikit-learn</strong>, <strong>XGBoost</strong>, <strong>LightGBM</strong></li>
-      <li><strong>GeoPandas</strong>, <strong>Shapely</strong>, <strong>QGIS</strong> (geospatial data)</li>
-      <li><strong>Python</strong> data processing / analysis</li>
-    </ul>
-  </div>
-</section>
-
-<style>
-  .skills{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-top: 10px;
-  }
-  .block{
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 14px;
-    background: rgba(255,255,255,0.04);
-  }
-  .block h3{
-    margin: 0 0 8px;
-    font-size: 14px;
-    opacity: 0.9;
-  }
-  .block ul{
-    margin: 0;
-    padding-left: 18px;
-  }
-  .block li{ margin: 6px 0; opacity: 0.92; }
-  .internships{
-    margin-top: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .internshipCard{
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 16px;
-    background: rgba(255,255,255,0.04);
-  }
-  .internshipHeader h3{
-    margin: 0 0 6px;
-    font-size: 16px;
-  }
-  .internshipMeta{
-    margin: 0 0 10px;
-    font-size: 13px;
-    opacity: 0.85;
-  }
-  .internshipCard ul{
-    margin: 0 0 10px;
-    padding-left: 18px;
-  }
-  .internshipCard li{
-    margin: 6px 0;
-    opacity: 0.92;
-  }
-  .internshipStack{
-    margin: 0 0 8px;
-    font-size: 13px;
-    opacity: 0.9;
-  }
-  .internshipLink{
-    font-size: 13px;
-  }
-  @media (max-width: 900px){
-    .skills{ grid-template-columns: 1fr; }
-  }
-</style>
+<SkillsGrid lang="en" />
 
 <h2>Work Experience</h2>
-<section class="internships">
-  <article class="internshipCard">
-    <div class="internshipHeader">
-      <h3>General Directorate of Mining and Petroleum Affairs (MAPEG)</h3>
-      <p class="internshipMeta">Intern / IT Department • 13 July 2026 – Present • Ankara / Çankaya</p>
-    </div>
-    <ul>
-      <li>Responsibilities and tasks</li>
-      <li>...</li>
-    </ul>
-    <p class="internshipStack"><strong>Technologies:</strong>...</p>
-    <a class="internshipLink" href="https://www.mapeg.gov.tr/" target="_blank" rel="noreferrer">Company website</a>
-  </article>
-  <article class="internshipCard">
-    <div class="internshipHeader">
-      <h3>Kuzey Marmara Otoyolu İşletme A.Ş.</h3>
-      <p class="internshipMeta">Intern / IT Department • Aug 4, 2025 – Aug 29, 2025 • Istanbul / Sarıyer</p>
-    </div>
-    <ul>
-      <li>Learned and applied SOLID principles.</li>
-      <li>Observed internal company processes.</li>
-      <li>Worked on backend fundamentals.</li>
-      <li>Built the requested project: 4kEditorUygulaması / EditorDesk.</li>
-    </ul>
-    <p class="internshipStack"><strong>Technologies:</strong> .NET Core, ASP.NET, C#, Docker, PostgreSQL, Postman</p>
-    <a class="internshipLink" href="https://www.kuzeymarmaraotoyolu.com/" target="_blank" rel="noreferrer">Company website</a>
-  </article>
-</section>
+<ExperienceList lang="en" />
 
 <h2>Featured Projects</h2>
 {featured.length ? (

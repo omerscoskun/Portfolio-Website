@@ -1,0 +1,82 @@
+---
+import type { Lang } from "../i18n/utils";
+import { experiences, formatPeriod } from "../data/cv";
+
+const { lang } = Astro.props as { lang: Lang };
+
+const copy = {
+  tr: { tech: "Teknolojiler:", website: "Kurum web sitesi" },
+  en: { tech: "Technologies:", website: "Company website" },
+}[lang];
+---
+
+<section class="internships">
+  {experiences.map((exp) => (
+    <article class="internshipCard">
+      <div class="internshipHeader">
+        <h3>{exp.organization[lang]}</h3>
+        <p class="internshipMeta">
+          {exp.role[lang]} • {formatPeriod(exp, lang)} • {exp.location[lang]}
+        </p>
+      </div>
+
+      {exp.bullets.length > 0 && (
+        <ul>
+          {exp.bullets.map((bullet) => <li>{bullet[lang]}</li>)}
+        </ul>
+      )}
+
+      {exp.tech.length > 0 && (
+        <p class="internshipStack">
+          <strong>{copy.tech}</strong> {exp.tech.join(", ")}
+        </p>
+      )}
+
+      {exp.url && (
+        <a class="internshipLink" href={exp.url} target="_blank" rel="noreferrer">
+          {copy.website}
+        </a>
+      )}
+    </article>
+  ))}
+</section>
+
+<style>
+  .internships{
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .internshipCard{
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.04);
+  }
+  .internshipHeader h3{
+    margin: 0 0 6px;
+    font-size: 16px;
+  }
+  .internshipMeta{
+    margin: 0 0 10px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+  .internshipCard ul{
+    margin: 0 0 10px;
+    padding-left: 18px;
+  }
+  .internshipCard li{
+    margin: 6px 0;
+    opacity: 0.92;
+  }
+  .internshipStack{
+    margin: 0 0 8px;
+    font-size: 13px;
+    opacity: 0.9;
+  }
+  .internshipLink{
+    font-size: 13px;
+  }
+</style>
