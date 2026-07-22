@@ -12,12 +12,16 @@ export type Education = {
   start: string;
   end: string | null;
   gpa?: string;
+  logo?: string;
+  logoAlt?: string;
 };
 
 export type LanguageSkill = {
   id: string;
   name: Localized;
   level: Localized;
+  logo?: string;
+  logoAlt?: string;
 };
 
 export const cvProfile = {
@@ -51,6 +55,8 @@ export const education: Education[] = [
     start: "2021-09-01",
     end: "2026-06-30",
     gpa: "3.07 / 4.00",
+    logo: "/logos/sdu.png",
+    logoAlt: "Süleyman Demirel Üniversitesi Logo",
   },
 ];
 
@@ -67,6 +73,8 @@ export const languages: LanguageSkill[] = [
       tr: "C1 (British Culture Dil Okulu)",
       en: "C1 (British Culture Language School)",
     },
+    logo: "/logos/british-culture.png",
+    logoAlt: "British Culture Logo",
   },
 ];
 
@@ -91,6 +99,8 @@ export type Experience = {
   bullets: Localized[];
   tech: string[];
   url?: string;
+  logo?: string;
+  logoAlt?: string;
 };
 
 export const skillGroups: SkillGroup[] = [
@@ -212,6 +222,8 @@ export const experiences: Experience[] = [
     bullets: [],
     tech: [],
     url: "https://www.mapeg.gov.tr/",
+    logo: "/logos/mapeg.png",
+    logoAlt: "MAPEG Logo",
   },
   {
     id: "kmo",
@@ -243,6 +255,8 @@ export const experiences: Experience[] = [
     ],
     tech: [".NET Core", "ASP.NET", "C#", "Docker", "PostgreSQL", "Postman"],
     url: "https://www.kuzeymarmaraotoyolu.com/",
+    logo: "/logos/kmo.png",
+    logoAlt: "KMO Logo",
   },
 ];
 

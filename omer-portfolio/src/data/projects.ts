@@ -1,6 +1,8 @@
 export type Project = {
   id: string;
   featured?: boolean;
+  logo?: string;
+  logoAlt?: string;
 
   title: { tr: string; en: string };
   summary: { tr: string; en: string };
@@ -18,6 +20,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: "g-app",
+    logo: "/logos/gapp.svg",
+    logoAlt: "G-App Logo",
     featured: true,
     title: {
       tr: "G-App (Fotoğraflı Günlük Uygulaması)",
@@ -40,6 +44,8 @@ export const projects: Project[] = [
   },
   {
     id: "forest-fire",
+    logo: "/logos/forest-fire.png",
+    logoAlt: "Forest Fire Logo",
     featured: true,
     title: {
       tr: "Orman Yangınları Risk Analizi ve Tahmin Sistemi (TÜBİTAK)",
@@ -66,6 +72,8 @@ export const projects: Project[] = [
   },
   {
     id: "mavera",
+    logo: "/logos/mavera.png",
+    logoAlt: "Mavera Logo",
     featured: false,
     title: { tr: "Mavera (Konsept Uygulama)", en: "Mavera (Concept App)" },
     summary: {

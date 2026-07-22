@@ -1,6 +1,7 @@
 ---
 import type { Lang } from "../i18n/utils";
 import { experiences, formatPeriod } from "../data/cv";
+import CardLogo from "./CardLogo.astro";
 
 const { lang } = Astro.props as { lang: Lang };
 
@@ -14,12 +15,14 @@ const copy = {
   {experiences.map((exp) => (
     <article class="internshipCard">
       <div class="internshipHeader">
-        <h3>{exp.organization[lang]}</h3>
-        <p class="internshipMeta">
-          {exp.role[lang]} • {formatPeriod(exp, lang)} • {exp.location[lang]}
-        </p>
+        {exp.logo && <CardLogo src={exp.logo} alt={exp.logoAlt ?? ""} />}
+        <div class="headerText">
+          <h3>{exp.organization[lang]}</h3>
+          <p class="internshipMeta">
+            {exp.role[lang]} • {formatPeriod(exp, lang)} • {exp.location[lang]}
+          </p>
+        </div>
       </div>
-
       {exp.bullets.length > 0 && (
         <ul>
           {exp.bullets.map((bullet) => <li>{bullet[lang]}</li>)}
@@ -54,10 +57,13 @@ const copy = {
     padding: 16px;
     background: rgba(255,255,255,0.04);
   }
-  .internshipHeader h3{
-    margin: 0 0 6px;
-    font-size: 16px;
+  .internshipHeader{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
   }
+  .headerText{ min-width: 0; }
+
   .internshipMeta{
     margin: 0 0 10px;
     font-size: 13px;

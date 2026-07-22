@@ -1,0 +1,24 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gapp-bg" x1="36" y1="28" x2="218" y2="228" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#20463D" />
+      <stop offset="1" stop-color="#0E6F5C" />
+    </linearGradient>
+    <linearGradient id="gapp-ribbon" x1="171" y1="56" x2="171" y2="123" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F29B7B" />
+      <stop offset="1" stop-color="#D76657" />
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="224" height="224" rx="56" fill="url(#gapp-bg)" />
+  <path
+    d="M84 48H172C192.987 48 210 65.0132 210 86V170C210 190.987 192.987 208 172 208H84C63.0132 208 46 190.987 46 170V86C46 65.0132 63.0132 48 84 48Z"
+    fill="#FFF9F2"
+  />
+  <path d="M92 48H104V208H92C66.5949 208 46 187.405 46 162V94C46 68.5949 66.5949 48 92 48Z" fill="#F2E8DA" />
+  <path d="M156 48H186V112L171 101L156 112V48Z" fill="url(#gapp-ribbon)" />
+  <path
+    d="M170.57 91.596C159.35 81.1333 141.719 79.9245 128.914 88.7475C114.804 98.5158 109.839 117.739 115.315 133.619C121.77 152.34 143.102 161.524 160.559 153.587C172.719 148.058 180.667 135.676 180.667 122.219V118.884H149.499V132.727H164.298C161.888 140.137 154.765 145.501 146.672 145.501C135.018 145.501 125.571 136.055 125.571 124.4C125.571 112.745 135.018 103.299 146.672 103.299C152.534 103.299 157.838 105.69 161.658 109.55L170.57 91.596Z"
+    fill="#183B34"
+  />
+  <circle cx="180" cy="178" r="12" fill="#F6B676" />
+</svg>

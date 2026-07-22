@@ -1,6 +1,7 @@
 ---
 import type { Project } from "../data/projects";
 import type { Lang } from "../i18n/utils";
+import CardLogo from "./CardLogo.astro";
 
 const { project, lang } = Astro.props as { project: Project; lang: Lang };
 
@@ -10,7 +11,10 @@ const summary = project.summary[lang];
 
 <article class="card">
   <header class="top">
-    <h3>{title}</h3>
+    <div class="titleRow">
+      {project.logo && <CardLogo src={project.logo} alt={project.logoAlt ?? ""} size={40} />}
+      <h3>{title}</h3>
+    </div>
     {project.tags?.length ? (
       <div class="tags">
         {project.tags.map((tag) => <span class="tag">{tag}</span>)}
@@ -59,7 +63,15 @@ const summary = project.summary[lang];
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 12px;
+  }
+
+  .titleRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
   }
 
   h3 { margin: 0; }

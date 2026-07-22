@@ -1,6 +1,7 @@
 ---
 import type { Lang } from "../i18n/utils";
 import { education, languages, formatMonthRange } from "../data/cv";
+import CardLogo from "./CardLogo.astro";
 
 const { lang } = Astro.props as { lang: Lang };
 
@@ -13,10 +14,15 @@ const copy = {
 <section class="eduWrap">
   {education.map((ed) => (
     <article class="eduCard">
-      <h3>{ed.school[lang]}</h3>
-      <p class="eduMeta">
-        {ed.program[lang]} • {formatMonthRange(ed, lang)} • {ed.location[lang]}
-      </p>
+      <div class="eduHeader">
+        {ed.logo && <CardLogo src={ed.logo} alt={ed.logoAlt ?? ""} />}
+        <div class="headerText">
+          <h3>{ed.school[lang]}</h3>
+          <p class="eduMeta">
+            {ed.program[lang]} • {formatMonthRange(ed, lang)} • {ed.location[lang]}
+          </p>
+        </div>
+      </div>
       <ul>
         {ed.note && <li>{ed.note[lang]}</li>}
         {ed.gpa && <li>{copy.gpa} {ed.gpa}</li>}
@@ -26,9 +32,11 @@ const copy = {
 
   <article class="eduCard">
     <h3>{copy.languages}</h3>
-    <ul>
+    <ul class="langList">
       {languages.map((l) => (
-        <li><strong>{l.name[lang]}</strong> — {l.level[lang]}</li>
+        <li class="langItem">
+          <span><strong>{l.name[lang]}</strong> — {l.level[lang]}</span>
+        </li>
       ))}
     </ul>
   </article>
@@ -51,6 +59,12 @@ const copy = {
     margin: 0 0 6px;
     font-size: 16px;
   }
+  .eduHeader{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .headerText{ min-width: 0; }
   .eduMeta{
     margin: 0 0 10px;
     font-size: 13px;
@@ -61,4 +75,16 @@ const copy = {
     padding-left: 18px;
   }
   .eduCard li{ margin: 6px 0; opacity: 0.92; }
+
+  .eduCard .langList{
+    list-style: none;
+    padding-left: 0;
+  }
+  .langItem{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 32px;
+  }
+  .langLogo{ margin-left: auto; }
 </style>

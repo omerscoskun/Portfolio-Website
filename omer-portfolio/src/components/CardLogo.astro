@@ -1,0 +1,33 @@
+---
+const { src, alt = "", size = 48 } = Astro.props as {
+  src: string;
+  alt?: string;
+  size?: number;
+};
+---
+
+<div class="logoBox" style={`--logo-size:${size}px`}>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+</div>
+
+<style>
+  .logoBox{
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: var(--logo-size);
+    height: var(--logo-size);
+    border-radius: calc(var(--logo-size) / 4);
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.92);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    padding: calc(var(--logo-size) / 8);
+  }
+  .logoBox img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+</style>
