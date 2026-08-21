@@ -19,6 +19,33 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: "keskal",
+    featured: true,
+    title: {
+      tr: "Keskal – Keşfedilmemiş Kalemler (Yayın Platformu)",
+      en: "Keskal – Keşfedilmemiş Kalemler (Publishing Platform)",
+    },
+    summary: {
+      tr: "Henüz geniş bir okur kitlesine ulaşmamış yazarların eserlerini yayımlayabildiği, okurların ise bu eserleri keşfedip okuyabildiği web platformu. Bir arkadaşımla birlikte kurduk; o marka ve pazarlama tarafını yürütürken yazılım geliştirmenin tamamını solo developer olarak ben üstleniyorum. Yazarlık paneli, zengin metin editörü, otomatik kayıt ve revizyon geçmişi, editör inceleme kuyruğu, değerlendirme akışı ve rol bazlı okuma yetkileriyle yayınlama modüllerini içeren internal alpha sürümü tamamlandı; geliştirme devam ediyor. (Private repository).",
+      en: "A web platform where authors who have not yet reached a wide readership can publish their work and readers can discover and read it. Founded together with a friend; he runs branding and marketing while I own all software development as the solo developer. The internal alpha is complete — author dashboard, rich-text editor, autosave and revision history, editorial review queue, decision workflow and the publishing module with role-based reading permissions — and development continues. (Private repository).",
+    },
+    tags: ["Web", "Full-Stack", "Backend"],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "NestJS",
+      "Node.js",
+      "Prisma",
+      "PostgreSQL",
+      "Docker",
+      "Tailwind CSS",
+      "Tiptap",
+      "JWT",
+      "RBAC",
+    ],
+  },
+  {
     id: "g-app",
     logo: "/logos/gapp.svg",
     logoAlt: "G-App Logo",
@@ -69,6 +96,30 @@ export const projects: Project[] = [
       "Shapely",
       "QGIS",
     ],
+  },
+  {
+    id: "beware",
+    featured: false,
+    title: {
+      tr: "BeWare (TMDB Film Uygulaması)",
+      en: "BeWare (TMDB Movie App)",
+    },
+    summary: {
+      tr: "MAPEG stajı sırasında bir gün içinde geliştirdiğim full-stack film keşif uygulaması. TMDB API üzerinden film verilerini çekip listeleyen uygulamanın backend tarafı .NET, frontend tarafı ise ilk kez denediğim Angular ile yazıldı. Veritabanı için PostgreSQL, sık kullanılan verilerin önbelleklenmesi için Redis kullanıldı; servisler Docker ile ayağa kaldırılıyor ve API uçları Swagger üzerinden dokümante ediliyor.",
+      en: "A full-stack movie discovery app I built in a single day during my MAPEG internship. It pulls and lists movie data from the TMDB API, with a .NET backend and an Angular frontend — a framework I was trying for the first time. PostgreSQL handles persistence and Redis caches frequently used data; the services run via Docker and the API endpoints are documented with Swagger.",
+    },
+    tags: ["Web", "Backend"],
+    tech: [
+      ".NET",
+      "C#",
+      "Angular",
+      "TypeScript",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "Swagger",
+    ],
+    links: { github: "https://github.com/omerscoskun/BeWare" },
   },
   {
     id: "mavera",

@@ -34,8 +34,8 @@ export const cvProfile = {
   location: site.location,
   links: site.socials.filter((s) => s.id === "github" || s.id === "linkedin"),
   summary: {
-    tr: "Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği mezunu. .NET/ASP.NET Core ile REST API ve katmanlı mimari üzerine yoğunlaşıyor; React Native, React ve Python tabanlı makine öğrenmesi katmanlarıyla uçtan uca çalışan ürünler geliştiriyor. Temiz mimari, SOLID ve sürdürülebilir kod pratiklerini önemsiyor.",
-    en: "Computer Engineering graduate of Süleyman Demirel University. Focused on REST APIs and layered architecture with .NET/ASP.NET Core; builds end-to-end products spanning React Native, React and Python-based machine learning layers. Committed to clean architecture, SOLID and sustainable code practices.",
+    tr: "Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği mezunu. .NET/ASP.NET Core ile REST API ve katmanlı mimari üzerine yoğunlaşıyor; React Native, React ve Python tabanlı makine öğrenmesi katmanlarıyla uçtan uca çalışan ürünler geliştiriyor. Hâlen Keskal yayın platformunu Next.js ve NestJS yığınıyla solo geliştirici olarak yürütüyor. Temiz mimari, SOLID ve sürdürülebilir kod pratiklerini önemsiyor.",
+    en: "Computer Engineering graduate of Süleyman Demirel University. Focused on REST APIs and layered architecture with .NET/ASP.NET Core; builds end-to-end products spanning React Native, React and Python-based machine learning layers. Currently builds the Keskal publishing platform as its solo developer on a Next.js and NestJS stack. Committed to clean architecture, SOLID and sustainable code practices.",
   } satisfies Localized,
 };
 
@@ -207,6 +207,55 @@ export const skillGroups: SkillGroup[] = [
 
 export const experiences: Experience[] = [
   {
+    id: "keskal",
+    organization: {
+      tr: "Keskal (Keşfedilmemiş Kalemler)",
+      en: "Keskal (Keşfedilmemiş Kalemler)",
+    },
+    role: {
+      tr: "Kurucu Ortak & Solo Full-Stack Geliştirici",
+      en: "Co-founder & Solo Full-Stack Developer",
+    },
+    location: { tr: "Uzaktan", en: "Remote" },
+    start: "2026-07-21",
+    end: null,
+    bullets: [
+      {
+        tr: "Yazarların eserlerini yayımladığı, okurların keşfettiği web platformunun tek geliştiricisi olarak frontend, backend, veritabanı ve altyapı katmanlarının tamamını yürütüyorum; kurucu ortağım marka ve pazarlama tarafını üstleniyor.",
+        en: "As the sole developer of a web platform where authors publish their work and readers discover it, I own the frontend, backend, database and infrastructure layers; my co-founder handles branding and marketing.",
+      },
+      {
+        tr: "Geliştirmeyi ürün ve mimari dokümantasyonu üzerinden planlı biçimde yürütüyorum: PRD, SAD, ERD, API kontratları, iş kırılım yapısı ve sprint yol haritası.",
+        en: "Run development from product and architecture documentation: PRD, SAD, ERD, API contracts, work breakdown structure and a sprint roadmap.",
+      },
+      {
+        tr: "Rol tabanlı erişim kontrolü (RBAC), JWT oturum yönetimi, Argon2id parola saklama ve oturum geçersiz kılma içeren kimlik ve yetkilendirme altyapısını geliştirdim.",
+        en: "Built the identity and authorization layer with role-based access control (RBAC), JWT session management, Argon2id password hashing and session invalidation.",
+      },
+      {
+        tr: "Yazarlık paneli, zengin metin editörü, otomatik kayıt ve revizyon geçmişi, editör inceleme kuyruğu, değerlendirme/sonuçlandırma akışı ve rol bazlı okuma yetkileriyle yayınlama modüllerini tamamladım.",
+        en: "Delivered the author dashboard, rich-text editor, autosave and revision history, editorial review queue, decision workflow and the publishing module with role-based reading permissions.",
+      },
+      {
+        tr: "Docker tabanlı geliştirme ortamı; birim, entegrasyon ve uçtan uca (E2E) test setleriyle internal alpha sürümünü kullanılabilir hâle getirdim.",
+        en: "Shipped a usable internal alpha backed by a Docker-based development environment and unit, integration and end-to-end (E2E) test suites.",
+      },
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "NestJS",
+      "Node.js",
+      "Prisma",
+      "PostgreSQL",
+      "Docker",
+      "Tailwind CSS",
+      "JWT",
+      "RBAC",
+    ],
+  },
+  {
     id: "mapeg",
     organization: {
       tr: "Maden ve Petrol İşleri Genel Müdürlüğü (MAPEG)",
@@ -218,9 +267,46 @@ export const experiences: Experience[] = [
     },
     location: { tr: "Ankara / Çankaya", en: "Ankara / Çankaya" },
     start: "2026-07-13",
-    end: null,
-    bullets: [],
-    tech: [],
+    end: "2026-08-10",
+    bullets: [
+      {
+        tr: "Kurumsal yazılım geliştirme ortamını ve Bilgi İşlem Daire Başkanlığındaki çalışma düzenini, ekip toplantılarına katılarak gözlemleme.",
+        en: "Observed the enterprise software development environment and the way the IT department works by joining team meetings.",
+      },
+      {
+        tr: "TMDB API üzerinden çalışan full-stack film uygulamasını (BeWare) bir gün içinde geliştirme: .NET backend, Angular frontend, PostgreSQL, Redis, Docker ve Swagger.",
+        en: "Built a full-stack movie application (BeWare) on top of the TMDB API in a single day: .NET backend, Angular frontend, PostgreSQL, Redis, Docker and Swagger.",
+      },
+      {
+        tr: "Keskal web platformunu PRD/SAD dokümantasyonundan internal alpha sürümüne kadar uçtan uca planlama ve geliştirme.",
+        en: "Planned and developed the Keskal web platform end to end, from PRD/SAD documentation through to an internal alpha release.",
+      },
+      {
+        tr: "Kimlik ve yetkilendirme altyapısı kurma: RBAC, JWT, Argon2id parola saklama ve oturum geçersiz kılma mekanizmaları.",
+        en: "Set up identity and authorization infrastructure: RBAC, JWT, Argon2id password hashing and session invalidation.",
+      },
+      {
+        tr: "Uçtan uca testleri yürütme, tespit edilen hataları önceliklendirerek kayıt altına alma ve internal alpha demosunu teknik olarak sunma.",
+        en: "Ran end-to-end tests, logged and prioritized the issues found, and presented the internal alpha demo from a technical standpoint.",
+      },
+      {
+        tr: "Günlük LeetCode pratiğiyle C# ve SQL üzerinden algoritma, veri yapıları ve sorgu çalışmaları.",
+        en: "Daily LeetCode practice on algorithms, data structures and queries using C# and SQL.",
+      },
+    ],
+    tech: [
+      ".NET",
+      "C#",
+      "Angular",
+      "PostgreSQL",
+      "Redis",
+      "Docker",
+      "Swagger",
+      "Next.js",
+      "NestJS",
+      "TypeScript",
+      "Prisma",
+    ],
     url: "https://www.mapeg.gov.tr/",
     logo: "/logos/mapeg.png",
     logoAlt: "MAPEG Logo",
